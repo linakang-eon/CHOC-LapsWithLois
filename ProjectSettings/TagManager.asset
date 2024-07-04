@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Begin Adventure
+    uniqueID: 4199736461
+    locked: 0
+  - name: Leaderboards
+    uniqueID: 1673929051
+    locked: 0
+  - name: Select Destination
+    uniqueID: 10583907
+    locked: 0
+  - name: MainMenu
+    uniqueID: 1635592477
+    locked: 0
+  - name: Lois
+    uniqueID: 3247398291
+    locked: 0
+  - name: Background
+    uniqueID: 3897354217
+    locked: 0
