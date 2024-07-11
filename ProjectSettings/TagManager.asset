@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3897354217
+    locked: 0
+  - name: Lois
+    uniqueID: 3247398291
+    locked: 0
+  - name: MainMenu
+    uniqueID: 1635592477
+    locked: 0
   - name: Begin Adventure
     uniqueID: 4199736461
     locked: 0
@@ -49,13 +58,4 @@ TagManager:
     locked: 0
   - name: Select Destination
     uniqueID: 10583907
-    locked: 0
-  - name: MainMenu
-    uniqueID: 1635592477
-    locked: 0
-  - name: Lois
-    uniqueID: 3247398291
-    locked: 0
-  - name: Background
-    uniqueID: 3897354217
     locked: 0

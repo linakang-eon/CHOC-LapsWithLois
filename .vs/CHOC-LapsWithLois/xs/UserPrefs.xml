@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{7232891E-2B7F-E4BE-85DF-DC9028251D5B}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MainMenuCanvasManager.cs">
+    <Files>
+      <File FileName="Assets/Scripts/MainMenuCanvasManager.cs" Line="62" Column="11" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="22" Column="1" />
+      <File FileName="Assets/Scripts/LobbyCanvasManager.cs" Line="48" Column="45" />
+      <File FileName="Assets/Scripts/Dog.cs" Line="19" Column="37" />
+      <File FileName="Assets/Scripts/DogConfig.cs" Line="10" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CHOC-LapsWithLois" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>dogTogglePrefab</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="661dfb8c-3347-46be-af13-d192eeda06a3" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
