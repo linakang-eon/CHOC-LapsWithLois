@@ -73,8 +73,9 @@ public class GameManager : MonoBehaviour
             dogModels.Add(data);
         }
 
-        LoadingScreen.SetActive(false);
+        
         mainMenuCanvasManager.initializeMainMenuUI();
+        LoadingScreen.SetActive(false);
         //WalkingDogsLoaded();
     }
 
