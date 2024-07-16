@@ -50,12 +50,12 @@ TagManager:
   - name: MainMenu
     uniqueID: 1635592477
     locked: 0
+  - name: Select Destination
+    uniqueID: 10583907
+    locked: 0
   - name: Begin Adventure
     uniqueID: 4199736461
     locked: 0
   - name: Leaderboards
     uniqueID: 1673929051
-    locked: 0
-  - name: Select Destination
-    uniqueID: 10583907
     locked: 0

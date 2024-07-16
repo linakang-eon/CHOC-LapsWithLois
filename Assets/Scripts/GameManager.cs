@@ -6,6 +6,9 @@ using UnityEngine;
 
 using Firebase;
 using Firebase.Firestore;
+using System.Threading.Tasks;
+using System.Linq;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,19 +17,20 @@ public class GameManager : MonoBehaviour
     public MainMenuCanvasManager mainMenuCanvasManager;
     public LobbyCanvasManager lobbyCanvasManager;
 
-    public delegate void WalkingDogsLoadedEvent(List<DogModel> walkingDogs);
+    public delegate void WalkingDogsLoadedEvent();
     public static event WalkingDogsLoadedEvent onWalkingDogsLoaded;
 
-    public static void WalkingDogsLoaded(List<DogModel> walkingDogs)
+    public static void WalkingDogsLoaded()
     {
-        onWalkingDogsLoaded?.Invoke(walkingDogs);
+        onWalkingDogsLoaded?.Invoke();
     }
 
+    public GameObject LoadingScreen;
 
 
     private CollectionReference db;
 
-    public List<DogConfig> allDogs;
+    public List<GameObject> allDogs;
     public List<DogModel> dogModels;
     public List<Dog> walkingDogs;
     public List<Dog> availableDogs;
@@ -39,18 +43,16 @@ public class GameManager : MonoBehaviour
 
         db = FirebaseFirestore.DefaultInstance.Collection("walkingDogs");
 
-        load();
-
     }
 
     // Update Dog in db if already exists
     public void addWalkingDog(Dog dog)
     {
         DogModel model = new DogModel();
-        model.Name = dog.name;
         model.Id = dog.id;
-        model.CheckpointsDone = dog.checkpointsFinished;
-        model.CheckpointsGoal = dog.checkpointGoal;
+        model.Name = dog.name;
+        model.CheckpointsDone = dog.checkpointsDone;
+        model.CheckpointsGoal = dog.checkpointsGoal;
         model.Country = dog.country;
         model.LeaderboardsOptIn = dog.leaderboards_opt_in;
 
@@ -58,41 +60,31 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void load()
+    public async Task load()
     {
-        db.GetSnapshotAsync().ContinueWith(task =>
+        QuerySnapshot snap = await db.GetSnapshotAsync();
+
+        IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
+        
+        dogModels = new List<DogModel>();
+        for(int i = 1; i < documents.Count(); i++)
         {
-            var documents = task.Result.Documents;
+            DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
+            dogModels.Add(data);
+        }
 
-            dogModels = new List<DogModel>();
-            foreach(var document in documents)
-            {
-                DogModel data = document.ConvertTo<DogModel>();
-                dogModels.Add(data);
-            }
-            WalkingDogsLoaded(dogModels);
-            //mainMenuCanvasManager.initializeMainMenuUI(dogModels);
-            //lobbyCanvasManager.initializeLobbyUI();
-
-        });
-
-        //    db.Document(model.Id).GetSnapshotAsync().ContinueWith(task =>
-        //{
-        //    if (task.Result.Exists)
-        //    {
-        //        DogModel data = task.Result.ConvertTo<DogModel>();
-        //        Debug.Log($"username: {data.Name}" + $"id: {data.Id}");
-        //    }
-        //});
+        LoadingScreen.SetActive(false);
+        mainMenuCanvasManager.initializeMainMenuUI();
+        //WalkingDogsLoaded();
     }
 
     public Sprite FindDogSpriteByName(string name)
     {
-        foreach(DogConfig dogConfig in allDogs)
+        foreach(GameObject dogObject in allDogs)
         {
-            if(dogConfig.name == name)
+            if(dogObject.GetComponent<Dog>().name == name)
             {
-                return dogConfig.thumbnail;
+                return dogObject.GetComponent<Image>().sprite;
             }
         }
 

@@ -9,37 +9,13 @@ public class Dog : MonoBehaviour
     public string id;
     public string name;
     public Sprite thumbnail;
-    public int checkpointsFinished;
-    public int checkpointGoal;
+    public int checkpointsDone;
+    public int checkpointsGoal;
     public bool isNew;
     public bool leaderboards_opt_in;
     public string country;
-    public int cityIndex;
 
-    public DogModel Data { get; set; }
-
-    public Dog(DogModel dog)
-    {
-        Data = dog;
-        id = dog.Id;
-        name = dog.Name;
-        thumbnail = GameManager.Instance.FindDogSpriteByName(name);
-        checkpointsFinished = dog.CheckpointsDone;
-        checkpointGoal = dog.CheckpointsGoal;
-        isNew = false;
-        leaderboards_opt_in = dog.LeaderboardsOptIn;
-        country = dog.Country;
-        cityIndex = 0;
-    }
-
-    
-
-    public void SetConfig(DogConfig dogConfig)
-    {
-        id = dogConfig.id;
-        name = dogConfig.name;
-        thumbnail = dogConfig.thumbnail;
-    }
+    public DogModel Data { get; set; }    
 
     public void IsWalking()
     {
@@ -48,13 +24,13 @@ public class Dog : MonoBehaviour
 
     internal void SetCheckpoints(TextMeshProUGUI checkpointGoalText)
     {
-        checkpointGoal = Int32.Parse(checkpointGoalText.text);
+        checkpointsGoal = Int32.Parse(checkpointGoalText.text);
     }
 
     public void checkpoint()
     {
-        checkpointsFinished += 1;
-        cityIndex += 1;
+        checkpointsDone += 1;
+        Data.CheckpointsDone += 1;
     }
 
     internal void Initialize(DogConfig dogConfig)
@@ -62,19 +38,34 @@ public class Dog : MonoBehaviour
         id = dogConfig.id;
         name = dogConfig.name;
         thumbnail = dogConfig.thumbnail;
+        Data = new DogModel();
+        Data.Id = id;
+        Data.Name = name;
     }
 
     public void SetDog(Dog dog)
     {
+        Data = dog.Data;
         id = dog.id;
         name = dog.name;
         thumbnail = dog.thumbnail;
-        checkpointsFinished = dog.checkpointsFinished;
-        checkpointGoal = dog.checkpointGoal;
+        checkpointsDone = dog.checkpointsDone;
+        checkpointsGoal = dog.checkpointsGoal;
         isNew = dog.isNew;
         leaderboards_opt_in = dog.leaderboards_opt_in;
         country = dog.country;
-        cityIndex = dog.cityIndex;
     }
 
+    internal void InitializeFromModel(DogModel dogModel)
+    {
+        Data = dogModel;
+        id = dogModel.Id;
+        name = dogModel.Name;
+        thumbnail = GameManager.Instance.FindDogSpriteByName(name);
+        checkpointsDone = dogModel.CheckpointsDone;
+        checkpointsGoal = dogModel.CheckpointsGoal;
+        isNew = false;
+        leaderboards_opt_in = dogModel.LeaderboardsOptIn;
+        country = dogModel.Country;
+    }
 }

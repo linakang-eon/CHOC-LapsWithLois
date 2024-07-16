@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,16 +55,8 @@ public class MainMenuCanvasManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.Instance.load();
         Instance = this;
-
-        GameManager.onWalkingDogsLoaded += delegate (List<DogModel> dogModels)
-        {
-            Debug.Log("StartCoroutine called");
-            StartCoroutine(initializeMainMenuUI(dogModels));
-            Debug.Log("StartCoroutine ended");
-        };
-
-
 
         addCheckpointButton.onClick.AddListener(addCheckpoint);
         subtractCheckpointButton.onClick.AddListener(subtractCheckpoint);
@@ -74,53 +67,69 @@ public class MainMenuCanvasManager : MonoBehaviour
         firstTimeRun = true;
     }
 
-    private IEnumerator initializeMainMenuUI(List<DogModel> dogModels)
+    public void initializeMainMenuUI()
     {
-
-        Debug.Log("callMethod() invoked");
-
-        if (dogTogglePrefab == null)
+        foreach (Transform dogTransform in availableDogs)
         {
-            Debug.LogError("dogPrefab is not assigned!");
-            yield break;
-        }
+            GameObject dogToggle = dogTransform.gameObject;
+            Dog currentDog = dogToggle.GetComponent<Dog>();
 
-        if (availableDogs == null)
-        {
-            Debug.LogError("dogPrefabIcons is not assigned!");
-            yield break;
-        }
-        yield return null;
-
-        List<DogConfig> allDogs = GameManager.Instance.allDogs;
-        foreach (DogConfig dogConfig in allDogs)
-        {
-            GameObject dogGameObject = Instantiate(dogTogglePrefab, availableDogs);
-            Dog currentDog = dogGameObject.GetComponent<Dog>();
-            currentDog.Initialize(dogConfig);
-            dogGameObject.GetComponent<Image>().sprite = currentDog.thumbnail;
-            dogGameObject.GetComponent<Toggle>().onValueChanged.AddListener(delegate { onDogPressed(dogGameObject); });
+            dogToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { onDogPressed(dogToggle); });
 
             foreach (DogModel dogModel in GameManager.Instance.dogModels)
             {
                 if (currentDog.name == dogModel.Name)
                 {
-                    currentDog.Data = dogModel;
+                    currentDog.InitializeFromModel(dogModel);
                     GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
-                    dogGameObject.transform.SetParent(dogWalkingToggle.transform);
-                    dogGameObject.transform.SetSiblingIndex(0);
+                    dogToggle.transform.SetParent(dogWalkingToggle.transform);
+                    dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
+                    dogToggle.transform.SetSiblingIndex(0);
                     dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
+                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
 
                     GameManager.Instance.walkingDogs.Add(currentDog);
-
+                    break;
                 }
             }
         }
 
-
     }
 
+    public async Task reloadMainMenuUI()
+    {
 
+        await GameManager.Instance.load();
+
+        foreach (Transform dogTransform in availableDogs)
+        {
+            GameObject dogToggle = dogTransform.gameObject;
+            Dog currentDog = dogToggle.GetComponent<Dog>();
+
+            foreach (DogModel walkingDog in GameManager.Instance.dogModels)
+            {
+                if (currentDog.name == walkingDog.Name)
+                {
+                    currentDog.InitializeFromModel(walkingDog);
+                    GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
+                    dogToggle.transform.SetParent(dogWalkingToggle.transform);
+                    dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
+                    dogToggle.transform.SetSiblingIndex(0);
+                    dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
+                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
+
+                    GameManager.Instance.walkingDogs.Add(currentDog);
+
+                    break;
+                }
+            }
+        }
+
+        foreach (DogModel walkingDog in GameManager.Instance.dogModels)
+        {
+            // check if they have checkpointed? if so, reset to available dogs
+        }
+    }
 
 
     private void addCheckpoint()
@@ -172,10 +181,10 @@ public class MainMenuCanvasManager : MonoBehaviour
                 yesLeaderboards.isOn = true;
             else
                 noLeaderboards.isOn = true;
-            checkpointGoalText.text = currentDog.checkpointGoal.ToString();
-            checkpointsCounterNumber.text = currentDog.checkpointsFinished.ToString();
+            checkpointGoalText.text = currentDog.checkpointsGoal.ToString();
+            checkpointsCounterNumber.text = currentDog.checkpointsDone.ToString();
         }
-        else
+        else if(currentDog.isNew)
         {
             checkpointsCounter.SetActive(false);
             addCheckpointButton.gameObject.SetActive(true);
@@ -212,6 +221,8 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public void onConfirmButtonPressed()
     {
+        currentDog.leaderboards_opt_in = yesLeaderboards.isOn;
+        currentDog.country = destinationToggleGroup.ActiveToggles().FirstOrDefault().name;
         // Add new dog to Out for Walk dogs
 
         if (currentDog.isNew)
@@ -227,18 +238,15 @@ public class MainMenuCanvasManager : MonoBehaviour
             // Add a new dog profile icon to Lobby Canvas
 
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
-            GameManager.Instance.addWalkingDog(currentDog);
-
         }
         else
         {
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
-            GameManager.Instance.addWalkingDog(currentDog);
+            
         }
 
-        currentDog.leaderboards_opt_in = yesLeaderboards.isOn;
-        currentDog.country = destinationToggleGroup.ActiveToggles().FirstOrDefault().name;
 
+        GameManager.Instance.addWalkingDog(currentDog);
         // Hide MainMenu canvases and bring Lobby Canvas back to front
 
         selectDestinationCanvas.SetActive(false);
@@ -255,6 +263,9 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public void openMainMenuCanvas()
     {
+
+        //await GameManager.Instance.load();
+        initializeMainMenuUI();
         mainCanvas.SetActive(true);
 
     }

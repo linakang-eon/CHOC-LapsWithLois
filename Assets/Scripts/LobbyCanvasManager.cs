@@ -23,22 +23,13 @@ public class LobbyCanvasManager : MonoBehaviour
     {
         
 
-        checkpointButton.GetComponent<Button>().onClick.AddListener(delegate {
+        checkpointButton.GetComponent<Button>().onClick.AddListener(delegate 
+        {
+            
             selectedDog.GetComponent<Dog>().checkpoint(); 
             congratulatoryImage.SetActive(true);
-            
-            Transform nextCity = currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex);
-            if (nextCity == null)
-            {
-                Debug.Log("USer has finished their lap");
-            }
-            else
-            {
-                currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex - 1).gameObject.SetActive(false);
-                nextCity.gameObject.SetActive(true);
-            }
             checkpointButton.SetActive(false);
-            //Change to next scene within Destination
+
         });
     }
 
@@ -67,7 +58,7 @@ public class LobbyCanvasManager : MonoBehaviour
             currentCountry.SetActive(false);
             currentCountry = currentDestination.gameObject;
             currentCountry.SetActive(true);
-            currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
+            //currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
         }
         
