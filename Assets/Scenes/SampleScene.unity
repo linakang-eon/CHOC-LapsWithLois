@@ -1491,7 +1491,7 @@ GameObject:
   - component: {fileID: 68960881}
   - component: {fileID: 68960880}
   m_Layer: 5
-  m_Name: Dog Toggle (22)
+  m_Name: Puck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3070,7 +3070,7 @@ GameObject:
   - component: {fileID: 181411166}
   - component: {fileID: 181411165}
   m_Layer: 5
-  m_Name: Dog Toggle (6)
+  m_Name: Budder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6781,7 +6781,7 @@ GameObject:
   - component: {fileID: 386720738}
   - component: {fileID: 386720737}
   m_Layer: 5
-  m_Name: Dog Toggle (14)
+  m_Name: Lazlo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7532,7 +7532,7 @@ GameObject:
   - component: {fileID: 434082331}
   - component: {fileID: 434082330}
   m_Layer: 5
-  m_Name: Dog Toggle (15)
+  m_Name: Lois
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10920,7 +10920,7 @@ GameObject:
   - component: {fileID: 628981064}
   - component: {fileID: 628981063}
   m_Layer: 5
-  m_Name: Dog Toggle (25)
+  m_Name: Sprocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13001,7 +13001,7 @@ GameObject:
   - component: {fileID: 737727617}
   - component: {fileID: 737727616}
   m_Layer: 5
-  m_Name: Dog Toggle (20)
+  m_Name: Picasso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13320,7 +13320,7 @@ GameObject:
   - component: {fileID: 744559124}
   - component: {fileID: 744559123}
   m_Layer: 5
-  m_Name: Dog Toggle (11)
+  m_Name: Gabbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15372,7 +15372,7 @@ GameObject:
   - component: {fileID: 870819654}
   - component: {fileID: 870819653}
   m_Layer: 5
-  m_Name: Dog Toggle (18)
+  m_Name: Neutron
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17592,7 +17592,7 @@ GameObject:
   - component: {fileID: 941200306}
   - component: {fileID: 941200305}
   m_Layer: 5
-  m_Name: Dog Toggle (5)
+  m_Name: Bruv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18391,7 +18391,7 @@ GameObject:
   - component: {fileID: 955608651}
   - component: {fileID: 955608650}
   m_Layer: 5
-  m_Name: Dog Toggle (16)
+  m_Name: Milo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23461,7 +23461,7 @@ GameObject:
   - component: {fileID: 1170700777}
   - component: {fileID: 1170700776}
   m_Layer: 5
-  m_Name: Dog Toggle (23)
+  m_Name: Ringer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24821,7 +24821,7 @@ GameObject:
   - component: {fileID: 1246073088}
   - component: {fileID: 1246073087}
   m_Layer: 5
-  m_Name: Dog Toggle (21)
+  m_Name: Pixel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26233,7 +26233,7 @@ GameObject:
   - component: {fileID: 1315250955}
   - component: {fileID: 1315250954}
   m_Layer: 5
-  m_Name: Dog Toggle (7)
+  m_Name: Cletus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27038,7 +27038,7 @@ GameObject:
   - component: {fileID: 1357866775}
   - component: {fileID: 1357866774}
   m_Layer: 5
-  m_Name: Dog Toggle (4)
+  m_Name: Bort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27695,7 +27695,7 @@ GameObject:
   - component: {fileID: 1406550365}
   - component: {fileID: 1406550364}
   m_Layer: 5
-  m_Name: Dog Toggle (24)
+  m_Name: Roo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28073,7 +28073,7 @@ GameObject:
   - component: {fileID: 1430461373}
   - component: {fileID: 1430461372}
   m_Layer: 5
-  m_Name: Dog Toggle (17)
+  m_Name: Moose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28231,7 +28231,7 @@ GameObject:
   - component: {fileID: 1435406513}
   - component: {fileID: 1435406512}
   m_Layer: 5
-  m_Name: Dog Toggle (19)
+  m_Name: Pancake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28614,7 +28614,7 @@ GameObject:
   - component: {fileID: 1444077852}
   - component: {fileID: 1444077851}
   m_Layer: 5
-  m_Name: Dog Toggle (26)
+  m_Name: Sweety
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29681,7 +29681,7 @@ GameObject:
   - component: {fileID: 1524606034}
   - component: {fileID: 1524606033}
   m_Layer: 5
-  m_Name: Dog Toggle (13)
+  m_Name: Hondo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30421,7 +30421,7 @@ GameObject:
   - component: {fileID: 1552092764}
   - component: {fileID: 1552092763}
   m_Layer: 5
-  m_Name: Dog Toggle (10)
+  m_Name: Dozer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34963,7 +34963,7 @@ GameObject:
   - component: {fileID: 1748225496}
   - component: {fileID: 1748225495}
   m_Layer: 5
-  m_Name: Dog Toggle (28)
+  m_Name: TomCruise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35943,7 +35943,7 @@ GameObject:
   - component: {fileID: 1781552584}
   - component: {fileID: 1781552583}
   m_Layer: 5
-  m_Name: Dog Toggle (8)
+  m_Name: Conan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38040,7 +38040,7 @@ GameObject:
   - component: {fileID: 1936506214}
   - component: {fileID: 1936506213}
   m_Layer: 5
-  m_Name: Dog Toggle (27)
+  m_Name: Teeny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40270,7 +40270,7 @@ GameObject:
   - component: {fileID: 2069439581}
   - component: {fileID: 2069439580}
   m_Layer: 5
-  m_Name: Dog Toggle (9)
+  m_Name: Dawson
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41796,11 +41796,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1509762737076191230, guid: ce56b77a8f6ef4d94bbb42894e1c3d50, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1509762737076191230, guid: ce56b77a8f6ef4d94bbb42894e1c3d50, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1509762737076191230, guid: ce56b77a8f6ef4d94bbb42894e1c3d50, type: 3}
       propertyPath: m_LocalPosition.x
