@@ -56,6 +56,7 @@ public class MainMenuCanvasManager : MonoBehaviour
     void Start()
     {
         GameManager.Instance.load();
+
         Instance = this;
 
         addCheckpointButton.onClick.AddListener(addCheckpoint);
@@ -67,18 +68,18 @@ public class MainMenuCanvasManager : MonoBehaviour
         firstTimeRun = true;
     }
 
-    public void initializeMainMenuUI()
+    public void resetMainMenuUI()
     {
-        foreach (Transform dogTransform in availableDogs)
+
+        foreach (GameObject dogToggle in GameManager.Instance.allDogs)
         {
-            GameObject dogToggle = dogTransform.gameObject;
             Dog currentDog = dogToggle.GetComponent<Dog>();
 
             dogToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { onDogPressed(dogToggle); });
 
             foreach (DogModel dogModel in GameManager.Instance.dogModels)
             {
-                if (currentDog.name == dogModel.Name)
+                if (currentDog.name == dogModel.Name && !GameManager.Instance.walkingDogs.Contains(currentDog))
                 {
                     currentDog.InitializeFromModel(dogModel);
                     GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
@@ -86,13 +87,14 @@ public class MainMenuCanvasManager : MonoBehaviour
                     dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
                     dogToggle.transform.SetSiblingIndex(0);
                     dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
-                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
 
+                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
                     GameManager.Instance.walkingDogs.Add(currentDog);
                     break;
                 }
             }
         }
+
 
     }
 
@@ -101,14 +103,14 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         await GameManager.Instance.load();
 
-        foreach (Transform dogTransform in availableDogs)
+        foreach (GameObject dogToggle in GameManager.Instance.allDogs)
         {
-            GameObject dogToggle = dogTransform.gameObject;
+
             Dog currentDog = dogToggle.GetComponent<Dog>();
 
             foreach (DogModel walkingDog in GameManager.Instance.dogModels)
             {
-                if (currentDog.name == walkingDog.Name)
+                if (currentDog.name == walkingDog.Name && !GameManager.Instance.walkingDogs.Contains(currentDog))
                 {
                     currentDog.InitializeFromModel(walkingDog);
                     GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
@@ -265,7 +267,7 @@ public class MainMenuCanvasManager : MonoBehaviour
     {
 
         //await GameManager.Instance.load();
-        initializeMainMenuUI();
+        reloadMainMenuUI();
         mainCanvas.SetActive(true);
 
     }

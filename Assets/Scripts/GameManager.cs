@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         }
 
         
-        mainMenuCanvasManager.initializeMainMenuUI();
+        mainMenuCanvasManager.resetMainMenuUI();
         LoadingScreen.SetActive(false);
         //WalkingDogsLoaded();
     }
