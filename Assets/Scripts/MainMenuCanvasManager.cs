@@ -15,6 +15,10 @@ public class MainMenuCanvasManager : MonoBehaviour
     public GameObject beginAdventureCanvas;
     public GameObject selectDestinationCanvas;
     public GameObject lobbyCanvas;
+    public GameObject passportCanvas;
+    public GameObject passportCanvasFrance;
+    public GameObject passportCanvasEgypt;
+    public GameObject passportCanvasJapan;
 
     [Header("New Patient")]
     public GameObject backButtonLeftPanel;
@@ -66,10 +70,32 @@ public class MainMenuCanvasManager : MonoBehaviour
         confirmButton.onClick.AddListener(onConfirmButtonPressed);
 
         firstTimeRun = true;
+
+        //GameManager.Instance.StartListeningForUpdates();
+
+        // Initialize Leaderboard Canvas
     }
 
     public void resetMainMenuUI()
     {
+        if (GameManager.Instance.dogModels.Count() == 0)
+        {
+            // Scorched Earth
+            for(int i = 0; i < GameManager.Instance.walkingDogs.Count(); i++)
+            {
+                Dog dogToggle = GameManager.Instance.walkingDogs[i];
+                GameObject walkingDogTogglePrefabClone = dogToggle.transform.parent.gameObject;
+                dogToggle.transform.SetParent(availableDogs);
+                dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
+                dogToggle.Reset();
+                Destroy(walkingDogTogglePrefabClone);
+                GameManager.Instance.walkingDogs.Remove(dogToggle);
+                i--;
+            }
+
+            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().scorchedEarth();
+            leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().scorchedEarth();
+        }
 
         foreach (GameObject dogToggle in GameManager.Instance.allDogs)
         {
@@ -79,17 +105,28 @@ public class MainMenuCanvasManager : MonoBehaviour
 
             foreach (DogModel dogModel in GameManager.Instance.dogModels)
             {
-                if (currentDog.name == dogModel.Name && !GameManager.Instance.walkingDogs.Contains(currentDog))
+                if (currentDog.name == dogModel.Name)
                 {
                     currentDog.InitializeFromModel(dogModel);
-                    GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
-                    dogToggle.transform.SetParent(dogWalkingToggle.transform);
-                    dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
-                    dogToggle.transform.SetSiblingIndex(0);
-                    dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
+                    if (!GameManager.Instance.walkingDogs.Contains(currentDog))
+                    {
+                        GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
+                        dogToggle.transform.SetParent(dogWalkingToggle.transform);
+                        dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
+                        dogToggle.transform.SetSiblingIndex(0);
+                        dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
 
-                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
-                    GameManager.Instance.walkingDogs.Add(currentDog);
+                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
+                        if (currentDog.leaderboards_opt_in)
+                            leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
+                        GameManager.Instance.walkingDogs.Add(currentDog);
+                    }
+                    else
+                    {
+                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
+                        leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
+                    }
+
                     break;
                 }
             }
@@ -100,37 +137,7 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public async Task reloadMainMenuUI()
     {
-
         await GameManager.Instance.load();
-
-        foreach (GameObject dogToggle in GameManager.Instance.allDogs)
-        {
-
-            Dog currentDog = dogToggle.GetComponent<Dog>();
-
-            foreach (DogModel walkingDog in GameManager.Instance.dogModels)
-            {
-                if (currentDog.name == walkingDog.Name && !GameManager.Instance.walkingDogs.Contains(currentDog))
-                {
-                    currentDog.InitializeFromModel(walkingDog);
-                    GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
-                    dogToggle.transform.SetParent(dogWalkingToggle.transform);
-                    dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
-                    dogToggle.transform.SetSiblingIndex(0);
-                    dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
-                    lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
-
-                    GameManager.Instance.walkingDogs.Add(currentDog);
-
-                    break;
-                }
-            }
-        }
-
-        foreach (DogModel walkingDog in GameManager.Instance.dogModels)
-        {
-            // check if they have checkpointed? if so, reset to available dogs
-        }
     }
 
 
@@ -197,10 +204,11 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public void onNextButtonPressed()
     {
-        if(currentDog.isNew)
+        
+        if (currentDog.isNew)
             beginAdventureCanvas.SetActive(true);
-        selectDestinationCanvas.SetActive(true);
-
+        else
+            selectDestinationCanvas.SetActive(true);
     }
 
     public void resetUI()
@@ -230,6 +238,7 @@ public class MainMenuCanvasManager : MonoBehaviour
         if (currentDog.isNew)
         {
             currentDog.SetCheckpoints(checkpointGoalText);
+            currentDog.initializeData();
             currentDog.IsWalking();
             GameManager.Instance.walkingDogs.Add(currentDog);
             GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
@@ -240,11 +249,16 @@ public class MainMenuCanvasManager : MonoBehaviour
             // Add a new dog profile icon to Lobby Canvas
 
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
+            if (currentDog.leaderboards_opt_in)
+                leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
+
         }
         else
         {
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
-            
+            if (currentDog.leaderboards_opt_in)
+                leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
+
         }
 
 
@@ -252,14 +266,30 @@ public class MainMenuCanvasManager : MonoBehaviour
         // Hide MainMenu canvases and bring Lobby Canvas back to front
 
         selectDestinationCanvas.SetActive(false);
+        switch(currentDog.country)
+        {
+            case "Egypt":
+                passportCanvasEgypt.SetActive(true);
+                break;
+            case "France":
+                passportCanvasFrance.SetActive(true);
+                break;
+            case "Japan":
+                passportCanvasJapan.SetActive(true);
+                break;
+        }
+        
+        passportCanvas.SetActive(true);
         mainCanvas.SetActive(false);
 
         // Show fun fact popup
+        
+    }
 
-
-
-        // Reset MainMenu Canvas UI
-
+    public void PlayAudio()
+    {
+        
+        GameManager.Instance.PlayAudio(currentDog.country);
         resetUI();
     }
 
@@ -267,7 +297,7 @@ public class MainMenuCanvasManager : MonoBehaviour
     {
 
         //await GameManager.Instance.load();
-        reloadMainMenuUI();
+        //reloadMainMenuUI();
         mainCanvas.SetActive(true);
 
     }

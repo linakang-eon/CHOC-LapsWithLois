@@ -16,19 +16,24 @@ public class GameManager : MonoBehaviour
 
     public MainMenuCanvasManager mainMenuCanvasManager;
     public LobbyCanvasManager lobbyCanvasManager;
+    public LeaderboardCanvasManager leaderboardCanvasManager;
 
-    public delegate void WalkingDogsLoadedEvent();
-    public static event WalkingDogsLoadedEvent onWalkingDogsLoaded;
+    //public delegate void WalkingDogsLoadedEvent();
+    //public static event WalkingDogsLoadedEvent onWalkingDogsLoaded;
 
-    public static void WalkingDogsLoaded()
-    {
-        onWalkingDogsLoaded?.Invoke();
-    }
+    //public static void WalkingDogsLoaded()
+    //{
+    //    onWalkingDogsLoaded?.Invoke();
+    //}
+
+    
 
     public GameObject LoadingScreen;
 
 
     private CollectionReference db;
+
+    public List<AudioClip> audios;
 
     public List<GameObject> allDogs;
     public List<DogModel> dogModels;
@@ -55,28 +60,79 @@ public class GameManager : MonoBehaviour
         model.CheckpointsGoal = dog.checkpointsGoal;
         model.Country = dog.country;
         model.LeaderboardsOptIn = dog.leaderboards_opt_in;
+        model.CityIndex = dog.cityIndex;
 
         db.Document(model.Id).SetAsync(model);
 
     }
 
-    public async Task load()
+    //public async Task update(QuerySnapshot snapshot)
+    //{
+    //    IEnumerable<DocumentSnapshot> documents = snapshot.Documents as IEnumerable<DocumentSnapshot>;
+
+    //    dogModels = new List<DogModel>();
+
+    //    for (int i = 1; i < documents.Count(); i++)
+    //    {
+    //        dogModels.Add(documents.ElementAt(i).ConvertTo<DogModel>());
+    //    }
+
+    //    mainMenuCanvasManager.resetMainMenuUI();
+    //}
+
+    public async Task load(QuerySnapshot snap = null)
     {
-        QuerySnapshot snap = await db.GetSnapshotAsync();
+        if(snap == null)
+            snap = await db.GetSnapshotAsync();
 
         IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
-        
+
+        DogModel date = documents.ElementAt(0).ConvertTo<DogModel>();
+
+        string todaysDate = DateTime.Now.Date.ToString();
+
         dogModels = new List<DogModel>();
-        for(int i = 1; i < documents.Count(); i++)
+
+        if (date.Name != todaysDate)
         {
-            DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
-            dogModels.Add(data);
+            // delete all documents
+
+            for (int i = 0; i < documents.Count(); i++)
+            {
+                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
+                db.Document(data.Id).DeleteAsync();
+
+            }
+
+            DogModel today = new DogModel();
+            today.Id = "0";
+            today.Name = todaysDate;
+            db.Document(today.Id).SetAsync(today);
+        }
+        else
+        {
+            for (int i = 1; i < documents.Count(); i++)
+            {
+                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
+                dogModels.Add(data);
+            }
+
         }
 
-        
         mainMenuCanvasManager.resetMainMenuUI();
+        
         LoadingScreen.SetActive(false);
-        //WalkingDogsLoaded();
+
+
+    }
+
+    public void StartListeningForUpdates()
+    {
+        ListenerRegistration registration = db.Listen(
+        querySnapshot =>
+        {
+            load(querySnapshot);
+        });
     }
 
     public Sprite FindDogSpriteByName(string name)
@@ -92,6 +148,22 @@ public class GameManager : MonoBehaviour
         throw new Exception("GameManager: Could not find Dog Sprite by Name of " + name);
 
         
+    }
+
+    public void PlayAudio(string audio)
+    {
+        switch(audio)
+        {
+            case "France":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[0], 1);
+                break;
+            case "Egypt":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[1], 1);
+                break;
+            case "Japan":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[2], 1);
+                break;
+        }
     }
 }
 

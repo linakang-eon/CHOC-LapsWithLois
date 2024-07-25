@@ -1,18 +1,34 @@
 ﻿<Properties StartupConfiguration="{7232891E-2B7F-E4BE-85DF-DC9028251D5B}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MainMenuCanvasManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/ExecuteEvents.cs">
     <Files>
-      <File FileName="Assets/Scripts/MainMenuCanvasManager.cs" Line="62" Column="11" />
-      <File FileName="Assets/Scripts/GameManager.cs" />
-      <File FileName="Assets/Scripts/LobbyCanvasManager.cs" />
-      <File FileName="Assets/Scripts/Dog.cs" />
-      <File FileName="Assets/Scripts/DogConfig.cs" />
+      <File FileName="Assets/Scripts/MainMenuCanvasManager.cs" Line="235" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="164" Column="80" />
+      <File FileName="Assets/Scripts/LobbyCanvasManager.cs" Line="114" Column="13" />
+      <File FileName="Assets/Scripts/Dog.cs" Line="72" Column="1" />
+      <File FileName="Assets/LeaderboardCanvasManager.cs" Line="259" Column="43" />
+      <File FileName="Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/ExecuteEvents.cs" Line="275" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CHOC-LapsWithLois" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="b07ef0a8-0d09-4fca-8c49-60f288736b34" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="60b3298a-c8a8-4596-b93e-4779a18f0ee1" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/GameManager.cs" relfile="Assets/Scripts/GameManager.cs" line="71" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/GameManager.cs" relfile="Assets/Scripts/GameManager.cs" line="85" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/LeaderboardCanvasManager.cs" relfile="Assets/Scripts/LeaderboardCanvasManager.cs" line="201" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/LeaderboardCanvasManager.cs" relfile="Assets/Scripts/LeaderboardCanvasManager.cs" line="111" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/LeaderboardCanvasManager.cs" relfile="Assets/Scripts/LeaderboardCanvasManager.cs" line="227" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/LeaderboardCanvasManager.cs" relfile="Assets/Scripts/LeaderboardCanvasManager.cs" line="217" column="1" />
+      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/MainMenuCanvasManager.cs" relfile="Assets/Scripts/MainMenuCanvasManager.cs" line="297" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

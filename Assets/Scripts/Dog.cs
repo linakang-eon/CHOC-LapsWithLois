@@ -14,8 +14,11 @@ public class Dog : MonoBehaviour
     public bool isNew;
     public bool leaderboards_opt_in;
     public string country;
+    public int cityIndex;
 
-    public DogModel Data { get; set; }    
+    public DogModel Data { get; set; }
+
+    public string currentDeviceUUID = "";
 
     public void IsWalking()
     {
@@ -25,24 +28,21 @@ public class Dog : MonoBehaviour
     internal void SetCheckpoints(TextMeshProUGUI checkpointGoalText)
     {
         checkpointsGoal = Int32.Parse(checkpointGoalText.text);
+        currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
     }
 
-    public void checkpoint()
+    public bool checkpoint()
     {
         checkpointsDone += 1;
         Data.CheckpointsDone += 1;
+        cityIndex += 1;
+        if (cityIndex == 5)
+            cityIndex = 0;
+        Data.CityIndex = cityIndex;
+        currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
+        GameManager.Instance.addWalkingDog(this);
+        return checkpointsDone == checkpointsGoal;
     }
-
-    internal void Initialize(DogConfig dogConfig)
-    {
-        id = dogConfig.id;
-        name = dogConfig.name;
-        thumbnail = dogConfig.thumbnail;
-        Data = new DogModel();
-        Data.Id = id;
-        Data.Name = name;
-    }
-
     public void SetDog(Dog dog)
     {
         Data = dog.Data;
@@ -54,6 +54,7 @@ public class Dog : MonoBehaviour
         isNew = dog.isNew;
         leaderboards_opt_in = dog.leaderboards_opt_in;
         country = dog.country;
+        cityIndex = dog.cityIndex;
     }
 
     internal void InitializeFromModel(DogModel dogModel)
@@ -67,5 +68,39 @@ public class Dog : MonoBehaviour
         isNew = false;
         leaderboards_opt_in = dogModel.LeaderboardsOptIn;
         country = dogModel.Country;
+        cityIndex = dogModel.CityIndex;
+    }
+
+    internal void initializeData()
+    {
+        Data = new DogModel();
+        Data.Id = id;
+        Data.Name = name;
+        Data.CityIndex = 0;
+        Data.CheckpointsDone = 0;
+        Data.CheckpointsGoal = checkpointsGoal;
+        Data.Country = country;
+        Data.LeaderboardsOptIn = leaderboards_opt_in;
+
+        cityIndex = 0;
+    }
+
+    internal void Reset()
+    {
+        Data.CityIndex = 0;
+        Data.CheckpointsDone = 0;
+        Data.CheckpointsGoal = 0;
+        Data.Country = "";
+        Data.LeaderboardsOptIn = false;
+
+        checkpointsDone = 0;
+        checkpointsGoal = 0;
+        isNew = true;
+        leaderboards_opt_in = false;
+        country = "";
+        cityIndex = 0;
+        currentDeviceUUID = "";
+
+
     }
 }
