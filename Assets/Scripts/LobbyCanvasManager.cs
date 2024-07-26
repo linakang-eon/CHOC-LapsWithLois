@@ -111,6 +111,8 @@ public class LobbyCanvasManager : MonoBehaviour
 
             travelAnimation.SetActive(false);
 
+            GameManager.Instance.ActivateFactDialogue(selectedDog.GetComponent<Dog>());
+
             GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
         }
 

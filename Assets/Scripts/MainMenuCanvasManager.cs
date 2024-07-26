@@ -45,6 +45,9 @@ public class MainMenuCanvasManager : MonoBehaviour
     public ToggleGroup destinationToggleGroup;
     public Button confirmButton;
 
+    [Header("Passport UI")]
+    public Button startButton;
+
     public Transform availableDogs;
     public Transform walkingDogs;
     private bool firstTimeRun;
@@ -283,14 +286,15 @@ public class MainMenuCanvasManager : MonoBehaviour
         mainCanvas.SetActive(false);
 
         // Show fun fact popup
-        
-    }
 
-    public void PlayAudio()
-    {
-        
-        GameManager.Instance.PlayAudio(currentDog.country);
-        resetUI();
+        startButton.onClick.AddListener(delegate
+        {
+            GameManager.Instance.ActivateFactDialogue(currentDog);
+            GameManager.Instance.PlayAudio(currentDog.country);
+            resetUI();
+        });
+
+
     }
 
     public void openMainMenuCanvas()

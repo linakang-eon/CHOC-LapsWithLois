@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
     public List<DogModel> dogModels;
     public List<Dog> walkingDogs;
     public List<Dog> availableDogs;
-    public List<GameObject> regions;
+
+    public List<GameObject> countries;
 
 
     private void Awake()
@@ -133,6 +134,30 @@ public class GameManager : MonoBehaviour
         {
             load(querySnapshot);
         });
+    }
+
+    internal void ActivateFactDialogue(Dog currentDog)
+    {
+        string country = currentDog.country;
+        int cityIndex = currentDog.cityIndex;
+
+        Transform cityTransform = null;
+
+        switch (country)
+        {
+            case "France":
+                cityTransform = countries[0].transform.GetChild(cityIndex);
+                break;
+            case "Egypt":
+                cityTransform = countries[1].transform.GetChild(cityIndex);
+                break;
+            case "Japan":
+                cityTransform = countries[2].transform.GetChild(cityIndex);
+                break;
+        }
+
+        cityTransform.GetChild(0).gameObject.SetActive(true);
+
     }
 
     public Sprite FindDogSpriteByName(string name)

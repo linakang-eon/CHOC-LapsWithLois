@@ -59,3 +59,9 @@ TagManager:
   - name: Leaderboards
     uniqueID: 1673929051
     locked: 0
+  - name: Facts Dialogue
+    uniqueID: 4181004449
+    locked: 0
+  - name: Facts Dialogue Button
+    uniqueID: 1660780533
+    locked: 0
