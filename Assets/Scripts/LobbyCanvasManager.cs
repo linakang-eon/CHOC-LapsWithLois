@@ -29,7 +29,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject checkpointButton;
-    public GameObject continueButton;
+    
     public GameObject dogProfilePrefab;
     public Transform dogProfileIcons;
 
@@ -64,7 +64,7 @@ public class LobbyCanvasManager : MonoBehaviour
             currentGoalReachedScreen.SetActive(false);
         });
 
-        GameManager.Instance.StartListeningForUpdates();
+        
     }
 
 
@@ -80,7 +80,6 @@ public class LobbyCanvasManager : MonoBehaviour
 
         // Check if they met their goal
 
-        
         bool checkPointsCompleted = selectedDog.GetComponent<Dog>().checkpoint();
         
         if(checkPointsCompleted)
@@ -115,8 +114,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
             GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
         }
-
-
+        StartCoroutine(WaitFor30Seconds(selectedDog));
     }
 
     internal void scorchedEarth()
@@ -131,58 +129,70 @@ public class LobbyCanvasManager : MonoBehaviour
 
     }
 
-    public void initializeLobbyUI()
-    {
-        List<Dog> walkingDogsList = GameManager.Instance.walkingDogs;
-        foreach (Dog dog in walkingDogsList)
-        {
-            addNewDog(dog);
-        }
-    }
+    //public void initializeLobbyUI()
+    //{
+    //    List<Dog> walkingDogsList = GameManager.Instance.walkingDogs;
+    //    foreach (Dog dog in walkingDogsList)
+    //    {
+    //        addNewDog(dog);
+    //    }
+    //}
 
 
     public void onToggled(GameObject DogProfileToggle)
     {
         selectedDog = DogProfileToggle;
 
-        if(selectedDog.GetComponent<Dog>().currentDeviceUUID != SystemInfo.deviceUniqueIdentifier)
-        {
-            checkpointButton.SetActive(selectedDog.GetComponent<Toggle>().isOn);
-        }
-        
+        //if(selectedDog.GetComponent<Dog>().currentDeviceUUID != SystemInfo.deviceUniqueIdentifier)
+        //{
+        //    checkpointButton.SetActive(selectedDog.GetComponent<Toggle>().isOn);
+        //}
+        if (selectedDog.GetComponent<Dog>().timerDone)
+            checkpointButton.SetActive(true);
+        else
+            checkpointButton.SetActive(false);
 
         string destination = selectedDog.GetComponent<Dog>().country;
 
-        Transform currentDestination = backgroundAnimation.transform.Find(destination);
+        Transform dogDestination = backgroundAnimation.transform.Find(destination);
+        Transform dogCity = dogDestination.GetChild(selectedDog.GetComponent<Dog>().cityIndex);
 
-        currentCountry.SetActive(false);
-        currentCity.SetActive(false);
-
-        currentCountry = currentDestination.gameObject;
-        currentCountry.SetActive(true);
-
-        currentCity = currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject;
-        currentCity.SetActive(true);
-
-        switch(destination)
+        if (currentCity.name == dogCity.name)
         {
-            case "France":
-                loisFrance.SetActive(true);
-                loisEgypt.SetActive(false);
-                loisJapan.SetActive(false);
-                break;
-            case "Egypt":
-                loisEgypt.SetActive(true);
-                loisFrance.SetActive(false);
-                loisJapan.SetActive(false);
-                break;
-            case "Japan":
-                loisJapan.SetActive(true);
-                loisEgypt.SetActive(false);
-                loisFrance.SetActive(false);
-                break;
-        }
 
+        }
+        else
+        {
+            if(currentCountry.name != destination)
+            {
+                currentCountry.SetActive(false);
+                currentCountry = dogDestination.gameObject;
+                currentCountry.SetActive(true);
+            }
+
+            currentCity.SetActive(false);
+            currentCity = currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject;
+            currentCity.SetActive(true);
+
+            switch (destination)
+            {
+                case "France":
+                    loisFrance.SetActive(true);
+                    loisEgypt.SetActive(false);
+                    loisJapan.SetActive(false);
+                    break;
+                case "Egypt":
+                    loisEgypt.SetActive(true);
+                    loisFrance.SetActive(false);
+                    loisJapan.SetActive(false);
+                    break;
+                case "Japan":
+                    loisJapan.SetActive(true);
+                    loisEgypt.SetActive(false);
+                    loisFrance.SetActive(false);
+                    break;
+            }
+        }
     }
 
     public void addNewDog(Dog currentDog)
@@ -196,6 +206,19 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             onToggled(dogLobbyToggle);
         });
+
+        dogLobbyToggle.GetComponent<Toggle>().isOn = true;
+
+        StartCoroutine(WaitFor30Seconds(dogLobbyToggle));
+    }
+
+    IEnumerator WaitFor30Seconds(GameObject dogLobbyToggle)
+    {
+        dogLobbyToggle.GetComponent<Dog>().timerDone = false;
+        yield return new WaitForSeconds(20);
+        dogLobbyToggle.GetComponent<Dog>().timerDone = true;
+        Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
+        
     }
 
     public void updateDog(Dog currentDog)
@@ -205,6 +228,7 @@ public class LobbyCanvasManager : MonoBehaviour
             if(dog.GetComponent<Dog>().id == currentDog.id)
             {
                 dog.GetComponent<Dog>().SetDog(currentDog);
+                onToggled(dog.gameObject);
                 break;
             }
 

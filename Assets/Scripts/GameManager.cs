@@ -18,16 +18,6 @@ public class GameManager : MonoBehaviour
     public LobbyCanvasManager lobbyCanvasManager;
     public LeaderboardCanvasManager leaderboardCanvasManager;
 
-    //public delegate void WalkingDogsLoadedEvent();
-    //public static event WalkingDogsLoadedEvent onWalkingDogsLoaded;
-
-    //public static void WalkingDogsLoaded()
-    //{
-    //    onWalkingDogsLoaded?.Invoke();
-    //}
-
-    
-
     public GameObject LoadingScreen;
 
 
@@ -67,20 +57,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    //public async Task update(QuerySnapshot snapshot)
-    //{
-    //    IEnumerable<DocumentSnapshot> documents = snapshot.Documents as IEnumerable<DocumentSnapshot>;
-
-    //    dogModels = new List<DogModel>();
-
-    //    for (int i = 1; i < documents.Count(); i++)
-    //    {
-    //        dogModels.Add(documents.ElementAt(i).ConvertTo<DogModel>());
-    //    }
-
-    //    mainMenuCanvasManager.resetMainMenuUI();
-    //}
-
     public async Task load(QuerySnapshot snap = null)
     {
         if(snap == null)
@@ -109,6 +85,54 @@ public class GameManager : MonoBehaviour
             today.Id = "0";
             today.Name = todaysDate;
             db.Document(today.Id).SetAsync(today);
+
+        }
+        else
+        {
+            for (int i = 1; i < documents.Count(); i++)
+            {
+                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
+                dogModels.Add(data);
+            }
+            
+        }
+
+        mainMenuCanvasManager.resetMainMenuUI();
+
+        GameManager.Instance.StartListeningForUpdates();
+
+        LoadingScreen.SetActive(false);
+    }
+
+    public async Task update(QuerySnapshot snap = null)
+    {
+        if (snap == null)
+            snap = await db.GetSnapshotAsync();
+
+        IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
+
+        DogModel date = documents.ElementAt(0).ConvertTo<DogModel>();
+
+        string todaysDate = DateTime.Now.Date.ToString();
+
+        dogModels = new List<DogModel>();
+
+        if (date.Name != todaysDate)
+        {
+            // delete all documents
+
+            for (int i = 0; i < documents.Count(); i++)
+            {
+                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
+                db.Document(data.Id).DeleteAsync();
+
+            }
+
+            DogModel today = new DogModel();
+            today.Id = "0";
+            today.Name = todaysDate;
+            db.Document(today.Id).SetAsync(today);
+
         }
         else
         {
@@ -121,10 +145,6 @@ public class GameManager : MonoBehaviour
         }
 
         mainMenuCanvasManager.resetMainMenuUI();
-        
-        LoadingScreen.SetActive(false);
-
-
     }
 
     public void StartListeningForUpdates()
@@ -132,12 +152,17 @@ public class GameManager : MonoBehaviour
         ListenerRegistration registration = db.Listen(
         querySnapshot =>
         {
-            load(querySnapshot);
+            update(querySnapshot);
         });
     }
 
     internal void ActivateFactDialogue(Dog currentDog)
     {
+        if (currentDog == null)
+        {
+            Debug.Log("ActivateFactDialogue could not work");
+            return;
+        }
         string country = currentDog.country;
         int cityIndex = currentDog.cityIndex;
 

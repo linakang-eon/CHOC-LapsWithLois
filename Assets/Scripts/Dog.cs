@@ -16,9 +16,11 @@ public class Dog : MonoBehaviour
     public string country;
     public int cityIndex;
 
+    public bool timerDone = false;
+
     public DogModel Data { get; set; }
 
-    public string currentDeviceUUID = "";
+    //public string currentDeviceUUID = "";
 
     public void IsWalking()
     {
@@ -28,7 +30,7 @@ public class Dog : MonoBehaviour
     internal void SetCheckpoints(TextMeshProUGUI checkpointGoalText)
     {
         checkpointsGoal = Int32.Parse(checkpointGoalText.text);
-        currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
+        //currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
     }
 
     public bool checkpoint()
@@ -39,7 +41,7 @@ public class Dog : MonoBehaviour
         if (cityIndex == 5)
             cityIndex = 0;
         Data.CityIndex = cityIndex;
-        currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
+        //currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
         GameManager.Instance.addWalkingDog(this);
         return checkpointsDone == checkpointsGoal;
     }
@@ -99,7 +101,7 @@ public class Dog : MonoBehaviour
         leaderboards_opt_in = false;
         country = "";
         cityIndex = 0;
-        currentDeviceUUID = "";
+        //currentDeviceUUID = "";
 
 
     }

@@ -60,11 +60,11 @@
     <Compile Include="Assets/Scripts/MemoryStatsScript.cs" />
     <Compile Include="Assets/Scripts/DogModel.cs" />
     <Compile Include="Assets/Scripts/MainMenuCanvasManager.cs" />
+    <Compile Include="Assets/Scripts/LeaderboardCanvasManager.cs" />
     <Compile Include="Assets/Scripts/GameManager.cs" />
     <Compile Include="Assets/Scripts/DogConfig.cs" />
     <Compile Include="Assets/Scripts/Dog.cs" />
     <Compile Include="Assets/Scripts/LobbyCanvasManager.cs" />
-    <Compile Include="Assets/Scripts/LeaderboardCanvasManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />

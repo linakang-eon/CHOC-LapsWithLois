@@ -242,19 +242,20 @@ public class MainMenuCanvasManager : MonoBehaviour
         {
             currentDog.SetCheckpoints(checkpointGoalText);
             currentDog.initializeData();
-            currentDog.IsWalking();
+            //currentDog.IsWalking();
             GameManager.Instance.walkingDogs.Add(currentDog);
             GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
             currentDog.gameObject.transform.SetParent(dogWalkingToggle.transform);
             currentDog.gameObject.transform.SetSiblingIndex(0);
             dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
 
-            // Add a new dog profile icon to Lobby Canvas
+            // Add a new dog profile icon to Lobby Canvas and set Lobby to the new dog and new dog's city
 
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
 
+            
         }
         else
         {

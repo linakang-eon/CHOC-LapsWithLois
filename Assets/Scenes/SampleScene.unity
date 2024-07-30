@@ -2063,7 +2063,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &68960881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4282,7 +4282,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &181411166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7677,7 +7677,7 @@ MonoBehaviour:
   nextButton: {fileID: 928979138}
   destinationToggleGroup: {fileID: 1260919404}
   confirmButton: {fileID: 268523072}
-  startButton: {fileID: 0}
+  startButton: {fileID: 1844278993}
   availableDogs: {fileID: 1708087448}
   walkingDogs: {fileID: 1700879066}
   dogTogglePrefab: {fileID: 1509762737076191231, guid: ce56b77a8f6ef4d94bbb42894e1c3d50, type: 3}
@@ -8269,7 +8269,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &386720738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13144,7 +13144,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &628981064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15303,7 +15303,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &737727617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15548,7 +15548,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &744559124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17989,7 +17989,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &870819654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20158,7 +20158,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &938828645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20318,7 +20318,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &941200306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21119,7 +21119,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &955608651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22561,13 +22561,13 @@ MonoBehaviour:
   id: 2
   name: Arkham
   thumbnail: {fileID: 21300000, guid: 1d122df7efa72496998a851a9906453f, type: 3}
-  checkpointsDone: 1
-  checkpointsGoal: 2
-  isNew: 0
-  leaderboards_opt_in: 1
-  country: Egypt
-  cityIndex: 1
-  currentDeviceUUID: 
+  checkpointsDone: 0
+  checkpointsGoal: 0
+  isNew: 1
+  leaderboards_opt_in: 0
+  country: 
+  cityIndex: 0
+  timerDone: 0
 --- !u!114 &1027967493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24371,7 +24371,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1079555826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27301,7 +27301,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1170700777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28327,7 +28327,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1229657717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28571,7 +28571,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1236656881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29046,7 +29046,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1246073088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30465,7 +30465,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1315250955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31511,7 +31511,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1357866775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32094,7 +32094,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1406550365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32472,7 +32472,6 @@ MonoBehaviour:
   currentCity: {fileID: 2053796975}
   currentGoalReachedScreen: {fileID: 1220711990}
   checkpointButton: {fileID: 1895795066}
-  continueButton: {fileID: 0}
   dogProfilePrefab: {fileID: 1509762737076191231, guid: 41bc8c08ff437466098fc9b36e67622f, type: 3}
   dogProfileIcons: {fileID: 1769499479}
 --- !u!1 &1427573122
@@ -32620,7 +32619,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1430461373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32774,13 +32773,13 @@ MonoBehaviour:
   id: 19
   name: Pancake
   thumbnail: {fileID: 21300000, guid: 9891b395dc3f74dadb602a1caa582e43, type: 3}
-  checkpointsDone: 1
-  checkpointsGoal: 4
-  isNew: 0
-  leaderboards_opt_in: 1
-  country: Egypt
-  cityIndex: 1
-  currentDeviceUUID: 
+  checkpointsDone: 0
+  checkpointsGoal: 0
+  isNew: 1
+  leaderboards_opt_in: 0
+  country: 
+  cityIndex: 0
+  timerDone: 0
 --- !u!114 &1435406513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33119,7 +33118,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1444077852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33976,7 +33975,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1524606034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34716,7 +34715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1548813419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34921,7 +34920,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1552092764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39645,7 +39644,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1748225496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40600,7 +40599,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1781552584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43607,7 +43606,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &1936506214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46035,7 +46034,7 @@ MonoBehaviour:
   leaderboards_opt_in: 0
   country: 
   cityIndex: 0
-  currentDeviceUUID: 
+  timerDone: 0
 --- !u!114 &2069439581
 MonoBehaviour:
   m_ObjectHideFlags: 0
