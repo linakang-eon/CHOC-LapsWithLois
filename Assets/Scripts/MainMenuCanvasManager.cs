@@ -126,7 +126,7 @@ public class MainMenuCanvasManager : MonoBehaviour
                     }
                     else
                     {
-                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
+                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog, false);
                         leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
                     }
 
@@ -259,7 +259,7 @@ public class MainMenuCanvasManager : MonoBehaviour
         }
         else
         {
-            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
+            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog, true);
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
 

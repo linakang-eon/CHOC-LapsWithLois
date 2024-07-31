@@ -143,10 +143,6 @@ public class LobbyCanvasManager : MonoBehaviour
     {
         selectedDog = DogProfileToggle;
 
-        //if(selectedDog.GetComponent<Dog>().currentDeviceUUID != SystemInfo.deviceUniqueIdentifier)
-        //{
-        //    checkpointButton.SetActive(selectedDog.GetComponent<Toggle>().isOn);
-        //}
         if (selectedDog.GetComponent<Dog>().timerDone)
             checkpointButton.SetActive(true);
         else
@@ -221,14 +217,15 @@ public class LobbyCanvasManager : MonoBehaviour
         
     }
 
-    public void updateDog(Dog currentDog)
+    public void updateDog(Dog currentDog, bool toggleTrue)
     {
         foreach(Transform dog in dogProfileIcons)
         {
             if(dog.GetComponent<Dog>().id == currentDog.id)
             {
                 dog.GetComponent<Dog>().SetDog(currentDog);
-                onToggled(dog.gameObject);
+                if(toggleTrue)
+                    onToggled(dog.gameObject);
                 break;
             }
 
