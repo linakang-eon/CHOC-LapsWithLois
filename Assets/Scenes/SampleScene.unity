@@ -27338,7 +27338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1170700775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28983,7 +28983,7 @@ MonoBehaviour:
   - {fileID: 737727614}
   - {fileID: 1246073085}
   - {fileID: 68960878}
-  - {fileID: 1170700774}
+  - {fileID: 1748225493}
   - {fileID: 1936506211}
   walkingDogs: []
   availableDogs: []
@@ -39924,7 +39924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1748225494
 RectTransform:
   m_ObjectHideFlags: 0

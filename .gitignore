@@ -3,3 +3,6 @@
 /Temp/*
 /Logs/*
 /BUILD/*
+.vsconfig
+CHOC-LapsWithLois.sln
+New Unity Project.sln
