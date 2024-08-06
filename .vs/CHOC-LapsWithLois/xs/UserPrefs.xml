@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{7232891E-2B7F-E4BE-85DF-DC9028251D5B}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MainMenuCanvasManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/MainMenuCanvasManager.cs" Line="246" Column="48" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="115" Column="13" />
-      <File FileName="Assets/Scripts/LobbyCanvasManager.cs" Line="152" Column="1" />
-      <File FileName="Assets/Scripts/Dog.cs" Line="28" Column="19" />
+      <File FileName="Assets/Scripts/MainMenuCanvasManager.cs" Line="116" Column="55" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="236" Column="88" />
+      <File FileName="Assets/Scripts/LobbyCanvasManager.cs" Line="195" Column="41" />
+      <File FileName="Assets/Scripts/Dog.cs" />
+      <File FileName="Assets/Scripts/LeaderboardCanvasManager.cs" Line="52" Column="52" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,12 +17,9 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="35808175-0450-4d1d-a56e-00596b280efc" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1556f450-5036-4ba5-847c-8fce16d03053" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/GameManager.cs" relfile="Assets/Scripts/GameManager.cs" line="86" column="1" />
-      <Breakpoint file="/Users/jmiller/CHOC-LapsWithLois/Assets/Scripts/LobbyCanvasManager.cs" relfile="Assets/Scripts/LobbyCanvasManager.cs" line="221" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

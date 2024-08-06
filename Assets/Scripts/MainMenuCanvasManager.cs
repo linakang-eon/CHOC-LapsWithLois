@@ -126,7 +126,7 @@ public class MainMenuCanvasManager : MonoBehaviour
                     }
                     else
                     {
-                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
+                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog, false);
                         leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
                     }
 
@@ -259,14 +259,14 @@ public class MainMenuCanvasManager : MonoBehaviour
         }
         else
         {
-            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog);
+            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().updateDog(currentDog, true);
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
 
         }
 
 
-        GameManager.Instance.addWalkingDog(currentDog);
+        GameManager.Instance.addWalkingDogToDB(currentDog);
         // Hide MainMenu canvases and bring Lobby Canvas back to front
 
         selectDestinationCanvas.SetActive(false);
@@ -290,6 +290,8 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         startButton.onClick.AddListener(delegate
         {
+            if (currentDog == null)
+                return;
             GameManager.Instance.ActivateFactDialogue(currentDog);
             GameManager.Instance.PlayAudio(currentDog.country);
             resetUI();

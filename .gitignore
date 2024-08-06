@@ -1,3 +1,5 @@
 /Library/*
 /Assets/Firebase/Plugins/*
 /Temp/*
+/Logs/*
+/BUILD/*

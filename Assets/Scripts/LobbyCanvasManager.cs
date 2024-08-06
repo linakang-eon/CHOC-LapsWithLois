@@ -62,6 +62,8 @@ public class LobbyCanvasManager : MonoBehaviour
 
             // Go to walking lois
             currentGoalReachedScreen.SetActive(false);
+
+            GoToNextCity();
         });
 
         
@@ -104,17 +106,22 @@ public class LobbyCanvasManager : MonoBehaviour
             currentCity.SetActive(false);
             currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
-            travelAnimation.SetActive(true);
-
-            yield return new WaitForSeconds(7);
-
-            travelAnimation.SetActive(false);
-
-            GameManager.Instance.ActivateFactDialogue(selectedDog.GetComponent<Dog>());
-
-            GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
+            GoToNextCity();
         }
         StartCoroutine(WaitFor30Seconds(selectedDog));
+    }
+
+    IEnumerator GoToNextCity()
+    {
+        travelAnimation.SetActive(true);
+
+        yield return new WaitForSeconds(7);
+
+        travelAnimation.SetActive(false);
+
+        GameManager.Instance.ActivateFactDialogue(selectedDog.GetComponent<Dog>());
+
+        GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
     }
 
     internal void scorchedEarth()
@@ -129,24 +136,10 @@ public class LobbyCanvasManager : MonoBehaviour
 
     }
 
-    //public void initializeLobbyUI()
-    //{
-    //    List<Dog> walkingDogsList = GameManager.Instance.walkingDogs;
-    //    foreach (Dog dog in walkingDogsList)
-    //    {
-    //        addNewDog(dog);
-    //    }
-    //}
-
-
-    public void onToggled(GameObject DogProfileToggle)
+    public void onToggled(GameObject DogProfileToggle, bool playAudioYesOrNo)
     {
         selectedDog = DogProfileToggle;
 
-        //if(selectedDog.GetComponent<Dog>().currentDeviceUUID != SystemInfo.deviceUniqueIdentifier)
-        //{
-        //    checkpointButton.SetActive(selectedDog.GetComponent<Toggle>().isOn);
-        //}
         if (selectedDog.GetComponent<Dog>().timerDone)
             checkpointButton.SetActive(true);
         else
@@ -193,6 +186,11 @@ public class LobbyCanvasManager : MonoBehaviour
                     break;
             }
         }
+
+        if(DogProfileToggle.GetComponent<Toggle>().isOn && playAudioYesOrNo)
+        {
+            GameManager.Instance.PlayAudio("dogToggleMainMenu");
+        }
     }
 
     public void addNewDog(Dog currentDog)
@@ -204,7 +202,8 @@ public class LobbyCanvasManager : MonoBehaviour
         dogLobbyToggle.GetComponent<Toggle>().group = dogProfileIcons.GetComponent<ToggleGroup>();
         dogLobbyToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate
         {
-            onToggled(dogLobbyToggle);
+            onToggled(dogLobbyToggle, false);
+            
         });
 
         dogLobbyToggle.GetComponent<Toggle>().isOn = true;
@@ -215,20 +214,21 @@ public class LobbyCanvasManager : MonoBehaviour
     IEnumerator WaitFor30Seconds(GameObject dogLobbyToggle)
     {
         dogLobbyToggle.GetComponent<Dog>().timerDone = false;
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(60);
         dogLobbyToggle.GetComponent<Dog>().timerDone = true;
         Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
         
     }
 
-    public void updateDog(Dog currentDog)
+    public void updateDog(Dog currentDog, bool toggleTrue)
     {
         foreach(Transform dog in dogProfileIcons)
         {
             if(dog.GetComponent<Dog>().id == currentDog.id)
             {
                 dog.GetComponent<Dog>().SetDog(currentDog);
-                onToggled(dog.gameObject);
+                if(toggleTrue)
+                    onToggled(dog.gameObject, false);
                 break;
             }
 

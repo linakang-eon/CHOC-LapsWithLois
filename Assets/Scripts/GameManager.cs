@@ -23,14 +23,20 @@ public class GameManager : MonoBehaviour
 
     private CollectionReference db;
 
-    public List<AudioClip> audios;
+    public List<AudioClip> countryBGM;
+    public List<AudioClip> sfx;
+    public List<AudioClip> dogBarks;
 
     public List<GameObject> allDogs;
     public List<DogModel> dogModels;
     public List<Dog> walkingDogs;
     public List<Dog> availableDogs;
-
     public List<GameObject> countries;
+
+    private int dogBarkPrevious = 0;
+
+    private bool firstTimeRun = true;
+
 
 
     private void Awake()
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Update Dog in db if already exists
-    public void addWalkingDog(Dog dog)
+    public void addWalkingDogToDB(Dog dog)
     {
         DogModel model = new DogModel();
         model.Id = dog.id;
@@ -62,6 +68,8 @@ public class GameManager : MonoBehaviour
         if(snap == null)
             snap = await db.GetSnapshotAsync();
 
+        
+
         IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
 
         DogModel date = documents.ElementAt(0).ConvertTo<DogModel>();
@@ -69,6 +77,8 @@ public class GameManager : MonoBehaviour
         string todaysDate = DateTime.Now.Date.ToString();
 
         dogModels = new List<DogModel>();
+
+        
 
         if (date.Name != todaysDate)
         {
@@ -97,62 +107,24 @@ public class GameManager : MonoBehaviour
             
         }
 
+        if(firstTimeRun)
+        {
+            StartListeningForUpdates();
+
+            LoadingScreen.SetActive(false);
+
+            firstTimeRun = false;
+        }    
+
         mainMenuCanvasManager.resetMainMenuUI();
 
-        GameManager.Instance.StartListeningForUpdates();
-
-        LoadingScreen.SetActive(false);
     }
-
-    public async Task update(QuerySnapshot snap = null)
-    {
-        if (snap == null)
-            snap = await db.GetSnapshotAsync();
-
-        IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
-
-        DogModel date = documents.ElementAt(0).ConvertTo<DogModel>();
-
-        string todaysDate = DateTime.Now.Date.ToString();
-
-        dogModels = new List<DogModel>();
-
-        if (date.Name != todaysDate)
-        {
-            // delete all documents
-
-            for (int i = 0; i < documents.Count(); i++)
-            {
-                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
-                db.Document(data.Id).DeleteAsync();
-
-            }
-
-            DogModel today = new DogModel();
-            today.Id = "0";
-            today.Name = todaysDate;
-            db.Document(today.Id).SetAsync(today);
-
-        }
-        else
-        {
-            for (int i = 1; i < documents.Count(); i++)
-            {
-                DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
-                dogModels.Add(data);
-            }
-
-        }
-
-        mainMenuCanvasManager.resetMainMenuUI();
-    }
-
     public void StartListeningForUpdates()
     {
         ListenerRegistration registration = db.Listen(
         querySnapshot =>
         {
-            update(querySnapshot);
+            load(querySnapshot);
         });
     }
 
@@ -205,13 +177,20 @@ public class GameManager : MonoBehaviour
         switch(audio)
         {
             case "France":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[0], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[0], 1);
                 break;
             case "Egypt":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[1], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[1], 1);
                 break;
             case "Japan":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(audios[2], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[2], 1);
+                break;
+            case "dogToggleMainMenu":
+                System.Random rndm = new System.Random();
+                int rndmNumber = rndm.Next(0, 5);
+                if (dogBarkPrevious == rndmNumber)
+                    rndmNumber = rndm.Next(0, 5);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(dogBarks[rndmNumber], 1);
                 break;
         }
     }
