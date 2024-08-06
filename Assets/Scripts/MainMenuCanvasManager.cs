@@ -55,16 +55,10 @@ public class MainMenuCanvasManager : MonoBehaviour
     public GameObject dogWalkingTogglePrefab;
     
 
-    public static MainMenuCanvasManager Instance { get; private set; }
-
-
-
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.load();
-
-        Instance = this;
 
         addCheckpointButton.onClick.AddListener(addCheckpoint);
         subtractCheckpointButton.onClick.AddListener(subtractCheckpoint);
@@ -73,10 +67,6 @@ public class MainMenuCanvasManager : MonoBehaviour
         confirmButton.onClick.AddListener(onConfirmButtonPressed);
 
         firstTimeRun = true;
-
-        //GameManager.Instance.StartListeningForUpdates();
-
-        // Initialize Leaderboard Canvas
     }
 
     public void resetMainMenuUI()
@@ -146,14 +136,14 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     private void addCheckpoint()
     {
-        int number = System.Int32.Parse(checkpointGoalText.text);
+        int number = int.Parse(checkpointGoalText.text);
         number += 1;
         checkpointGoalText.text = number.ToString();
     }
 
     private void subtractCheckpoint()
     {
-        int number = System.Int32.Parse(checkpointGoalText.text);
+        int number = int.Parse(checkpointGoalText.text);
         if(number > 1)
         {
             number -= 1;
@@ -203,15 +193,24 @@ public class MainMenuCanvasManager : MonoBehaviour
             subtractCheckpointButton.gameObject.SetActive(true);
             checkpointGoalText.text = "0";
         }
+
+        // PLay Audio
+
+        GameManager.Instance.PlayAudio("dogToggleMenu");
     }
 
     public void onNextButtonPressed()
     {
-        
         if (currentDog.isNew)
+        {
             beginAdventureCanvas.SetActive(true);
+            GameManager.Instance.PlayAudio("winSound");
+        }
         else
+        {
             selectDestinationCanvas.SetActive(true);
+            GameManager.Instance.PlayAudio("nextSound");
+        }
     }
 
     public void resetUI()
@@ -223,9 +222,7 @@ public class MainMenuCanvasManager : MonoBehaviour
         rightPanelFirst.SetActive(true);
         rightPanelSecond.SetActive(false);
 
-
         checkpointsCounter.SetActive(!currentDog.isNew);
-        
 
         firstTimeRun = true;
         currentDog = null;
@@ -236,26 +233,22 @@ public class MainMenuCanvasManager : MonoBehaviour
     {
         currentDog.leaderboards_opt_in = yesLeaderboards.isOn;
         currentDog.country = destinationToggleGroup.ActiveToggles().FirstOrDefault().name;
-        // Add new dog to Out for Walk dogs
 
         if (currentDog.isNew)
         {
             currentDog.SetCheckpoints(checkpointGoalText);
             currentDog.initializeData();
-            //currentDog.IsWalking();
             GameManager.Instance.walkingDogs.Add(currentDog);
             GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
             currentDog.gameObject.transform.SetParent(dogWalkingToggle.transform);
             currentDog.gameObject.transform.SetSiblingIndex(0);
             dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
 
-            // Add a new dog profile icon to Lobby Canvas and set Lobby to the new dog and new dog's city
 
             lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
 
-            
         }
         else
         {
@@ -265,10 +258,11 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         }
 
-
         GameManager.Instance.addWalkingDogToDB(currentDog);
-        // Hide MainMenu canvases and bring Lobby Canvas back to front
+        
+        passportCanvas.SetActive(true);
 
+        mainCanvas.SetActive(false);
         selectDestinationCanvas.SetActive(false);
         switch(currentDog.country)
         {
@@ -282,12 +276,8 @@ public class MainMenuCanvasManager : MonoBehaviour
                 passportCanvasJapan.SetActive(true);
                 break;
         }
-        
-        passportCanvas.SetActive(true);
-        mainCanvas.SetActive(false);
 
         // Show fun fact popup
-
         startButton.onClick.AddListener(delegate
         {
             if (currentDog == null)
@@ -302,11 +292,7 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public void openMainMenuCanvas()
     {
-
-        //await GameManager.Instance.load();
-        //reloadMainMenuUI();
         mainCanvas.SetActive(true);
-
     }
 
     public void openLeaderboardsCanvas()

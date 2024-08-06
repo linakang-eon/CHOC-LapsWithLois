@@ -106,7 +106,7 @@ public class LobbyCanvasManager : MonoBehaviour
             currentCity.SetActive(false);
             currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
-            GoToNextCity();
+            StartCoroutine(GoToNextCity());
         }
         StartCoroutine(WaitFor30Seconds(selectedDog));
     }
@@ -189,7 +189,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
         if(DogProfileToggle.GetComponent<Toggle>().isOn && playAudioYesOrNo)
         {
-            GameManager.Instance.PlayAudio("dogToggleMainMenu");
+            GameManager.Instance.PlayAudio("dogToggleLobby");
         }
     }
 
@@ -200,13 +200,16 @@ public class LobbyCanvasManager : MonoBehaviour
         dogLobbyToggle.GetComponent<Dog>().SetDog(currentDog);
         dogLobbyToggle.GetComponent<Image>().sprite = currentDog.thumbnail;
         dogLobbyToggle.GetComponent<Toggle>().group = dogProfileIcons.GetComponent<ToggleGroup>();
-        dogLobbyToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate
-        {
-            onToggled(dogLobbyToggle, false);
-            
-        });
 
         dogLobbyToggle.GetComponent<Toggle>().isOn = true;
+        onToggled(dogLobbyToggle, false);
+
+        dogLobbyToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate
+        {
+            onToggled(dogLobbyToggle, true);
+        });
+
+        
 
         StartCoroutine(WaitFor30Seconds(dogLobbyToggle));
     }

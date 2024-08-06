@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-using Firebase;
 using Firebase.Firestore;
 using System.Threading.Tasks;
 using System.Linq;
@@ -177,20 +174,32 @@ public class GameManager : MonoBehaviour
         switch(audio)
         {
             case "France":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[0], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[0], 0.5f);
                 break;
             case "Egypt":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[1], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[1], 0.5f);
                 break;
             case "Japan":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[2], 1);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[2], 0.5f);
                 break;
-            case "dogToggleMainMenu":
-                System.Random rndm = new System.Random();
-                int rndmNumber = rndm.Next(0, 5);
-                if (dogBarkPrevious == rndmNumber)
-                    rndmNumber = rndm.Next(0, 5);
-                gameObject.GetComponent<AudioSource>().PlayOneShot(dogBarks[rndmNumber], 1);
+            case "dogToggleLobby":
+                //System.Random rndm = new System.Random();
+                //int rndmNumber = rndm.Next(0, 5);
+                //while(dogBarkPrevious == rndmNumber)
+                //    rndmNumber = rndm.Next(0, 5);
+                dogBarkPrevious += 1;
+                if (dogBarkPrevious == 5)
+                    dogBarkPrevious = 0;
+                gameObject.GetComponent<AudioSource>().PlayOneShot(dogBarks[dogBarkPrevious], 0.5f);
+                break;
+            case "dogToggleMenu":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[2], 0.1f);
+                break;
+            case "winSound":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[3], 0.5f);
+                break;
+            case "nextSound":
+                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[1], 0.5f);
                 break;
         }
     }
