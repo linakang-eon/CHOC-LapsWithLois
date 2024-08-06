@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1440
     height: 774
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 76
+  controlID: 16
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 77
+  controlID: 17
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 78
+  controlID: 18
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 20
+  controlID: 19
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,8 +213,8 @@ MonoBehaviour:
     y: 0
     width: 322
     height: 457
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -239,8 +239,8 @@ MonoBehaviour:
     y: 0
     width: 730
     height: 457
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 15}
@@ -267,8 +267,8 @@ MonoBehaviour:
     y: 457
     width: 1052
     height: 267
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 17}
@@ -295,8 +295,8 @@ MonoBehaviour:
     y: 0
     width: 388
     height: 724
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -426,24 +426,24 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 276}
-      m_SelectedIDs: fe8effff
-      m_LastClickedID: -28930
-      m_ExpandedIDs: 78b1ffff36fbffff645a0000305b00006c5e00002e610000726100006e6200009a6200005c630000b86300005264000066640000bc64000012660000766600009a660000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 5e610000
+      m_LastClickedID: 24926
+      m_ExpandedIDs: 46aeffff36fbffff645a00006c5e0000726100006e6200009a62000014630000b863000052640000bc64000076660000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Dog Lobby Toggle Prefab(Clone)
-        m_OriginalName: Dog Lobby Toggle Prefab(Clone)
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -15316
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -871,16 +871,16 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 576
-    width: 996.5
-    height: 210
+    y: 540
+    width: 1051
+    height: 246
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: mainmenu
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -892,22 +892,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Sprites/Background Animation Sprites/facts
+    - Assets/Scripts
     m_Globs: []
-    m_OriginalText: mainmenu
+    m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Sprites/Background Animation Sprites/facts
+  - Assets/Scripts
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/jmiller/CHOC-LapsWithLois
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 130}
-    m_SelectedIDs: 786d0000
-    m_LastClickedID: 28024
-    m_ExpandedIDs: 000000009c6c00006e6d00007a6d000000ca9a3bffffff7f
+    m_SelectedIDs: ac780000
+    m_LastClickedID: 30892
+    m_ExpandedIDs: 00000000946c0000ae780000ba78000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -935,7 +935,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000009c6c0000
+    m_ExpandedIDs: 00000000946c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -960,24 +960,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 86620000
-    m_LastClickedInstanceID: 25222
+    m_SelectedInstanceIDs: 305b0000
+    m_LastClickedInstanceID: 23344
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000aa810000869d0000cc6100001e600100b4650000be650000cc65000000000000e4e00100ee6400001268000044680000cc670000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: MainMenuCanvasManager
-      m_OriginalName: MainMenuCanvasManager
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 3528
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
@@ -987,7 +987,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 44.5}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 220
@@ -1022,7 +1022,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 24704
+  m_LastSelectedObjectID: -4514
 --- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52

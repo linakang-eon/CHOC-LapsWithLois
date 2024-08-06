@@ -189,6 +189,11 @@ public class LobbyCanvasManager : MonoBehaviour
                     break;
             }
         }
+
+        if(DogProfileToggle.GetComponent<Toggle>().isOn)
+        {
+            GameManager.Instance.PlayAudio("dogToggleMainMenu");
+        }
     }
 
     public void addNewDog(Dog currentDog)
@@ -201,6 +206,7 @@ public class LobbyCanvasManager : MonoBehaviour
         dogLobbyToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate
         {
             onToggled(dogLobbyToggle);
+            
         });
 
         dogLobbyToggle.GetComponent<Toggle>().isOn = true;
@@ -211,7 +217,7 @@ public class LobbyCanvasManager : MonoBehaviour
     IEnumerator WaitFor30Seconds(GameObject dogLobbyToggle)
     {
         dogLobbyToggle.GetComponent<Dog>().timerDone = false;
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(60);
         dogLobbyToggle.GetComponent<Dog>().timerDone = true;
         Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
         

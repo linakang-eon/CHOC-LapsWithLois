@@ -290,6 +290,8 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         startButton.onClick.AddListener(delegate
         {
+            if (currentDog == null)
+                return;
             GameManager.Instance.ActivateFactDialogue(currentDog);
             GameManager.Instance.PlayAudio(currentDog.country);
             resetUI();
