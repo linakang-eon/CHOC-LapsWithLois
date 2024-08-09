@@ -251,11 +251,13 @@ public class LeaderboardCanvasManager : MonoBehaviour
         if(sortedWalkingDogs.Count == 0)
         {
             TopThreePanel.SetActive(false);
+            CurrentWalkingDogsTransform.gameObject.SetActive(false);
             NoDogsDialogue.SetActive(true);
         }
         else
         {
             TopThreePanel.SetActive(true);
+            CurrentWalkingDogsTransform.gameObject.SetActive(true);
             NoDogsDialogue.SetActive(false);
         }
 
