@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject LoadingScreen;
 
+    public Transform factsDialogue;
+
 
     private CollectionReference db;
 
@@ -134,6 +136,7 @@ public class GameManager : MonoBehaviour
         }
         string country = currentDog.country;
         int cityIndex = currentDog.cityIndex;
+        string cityName;
 
         Transform cityTransform = null;
 
@@ -141,6 +144,7 @@ public class GameManager : MonoBehaviour
         {
             case "France":
                 cityTransform = countries[0].transform.GetChild(cityIndex);
+                
                 break;
             case "Egypt":
                 cityTransform = countries[1].transform.GetChild(cityIndex);
@@ -149,8 +153,9 @@ public class GameManager : MonoBehaviour
                 cityTransform = countries[2].transform.GetChild(cityIndex);
                 break;
         }
-
-        cityTransform.GetChild(0).gameObject.SetActive(true);
+        cityName = "facts " + cityTransform.name;
+        factsDialogue.Find(cityName).gameObject.SetActive(true);
+        
 
     }
 
@@ -174,13 +179,13 @@ public class GameManager : MonoBehaviour
         switch(audio)
         {
             case "France":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[0], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[0], 0.3f);
                 break;
             case "Egypt":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[1], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[1], 0.3f);
                 break;
             case "Japan":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[2], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(countryBGM[2], 0.3f);
                 break;
             case "dogToggleLobby":
                 //System.Random rndm = new System.Random();
@@ -190,16 +195,16 @@ public class GameManager : MonoBehaviour
                 dogBarkPrevious += 1;
                 if (dogBarkPrevious == 5)
                     dogBarkPrevious = 0;
-                gameObject.GetComponent<AudioSource>().PlayOneShot(dogBarks[dogBarkPrevious], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(dogBarks[dogBarkPrevious], 0.3f);
                 break;
             case "dogToggleMenu":
                 gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[2], 0.1f);
                 break;
             case "winSound":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[3], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[3], 0.3f);
                 break;
             case "nextSound":
-                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[1], 0.5f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[1], 0.3f);
                 break;
         }
     }

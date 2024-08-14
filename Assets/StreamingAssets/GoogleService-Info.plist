@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>986325056069-5i1aqhk71c8982lgatvplge1hjhpcqhi.apps.googleusercontent.com</string>
+	<string>986325056069-t80rl4ap3bni0u73ia9hpci57p9m5cuu.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.986325056069-5i1aqhk71c8982lgatvplge1hjhpcqhi</string>
+	<string>com.googleusercontent.apps.986325056069-t80rl4ap3bni0u73ia9hpci57p9m5cuu</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAwaSG9BBAjmyEsq-CoGPU6RJq54x8Xg6M</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.EONReality.CHOC-LapsWithLois</string>
+	<string>com.eonreality.choc.lapswithlois</string>
 	<key>PROJECT_ID</key>
 	<string>laps-with-lois</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:986325056069:ios:6b4aacc3d53863942bc12c</string>
+	<string>1:986325056069:ios:278c05285d1ba4db2bc12c</string>
 </dict>
 </plist>

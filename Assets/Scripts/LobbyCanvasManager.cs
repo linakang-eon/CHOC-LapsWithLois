@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -150,11 +151,7 @@ public class LobbyCanvasManager : MonoBehaviour
         Transform dogDestination = backgroundAnimation.transform.Find(destination);
         Transform dogCity = dogDestination.GetChild(selectedDog.GetComponent<Dog>().cityIndex);
 
-        if (currentCity.name == dogCity.name)
-        {
-
-        }
-        else
+        if (currentCity.name != dogCity.name)
         {
             if(currentCountry.name != destination)
             {
@@ -187,10 +184,30 @@ public class LobbyCanvasManager : MonoBehaviour
             }
         }
 
-        if(DogProfileToggle.GetComponent<Toggle>().isOn && playAudioYesOrNo)
+        if(DogProfileToggle.transform.GetChild(1).GetComponent<Toggle>().isOn)
         {
-            GameManager.Instance.PlayAudio("dogToggleLobby");
+            if(playAudioYesOrNo)
+            {
+                GameManager.Instance.PlayAudio("dogToggleLobby");
+            }
+
+            DogProfileToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color32(0, 100, 164, 255);
+            DogProfileToggle.transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            DogProfileToggle.transform.GetChild(0).gameObject.SetActive(true);
+
         }
+        else
+        {
+            
+
+            DogProfileToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 125);
+            DogProfileToggle.transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 255, 255, 175);
+            DogProfileToggle.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        // Disable all other buttons if one is toggled
+
+
     }
 
     public void addNewDog(Dog currentDog)
@@ -198,13 +215,14 @@ public class LobbyCanvasManager : MonoBehaviour
         GameObject dogLobbyToggle = Instantiate(dogProfilePrefab, dogProfileIcons);
         dogToggles.Add(dogLobbyToggle);
         dogLobbyToggle.GetComponent<Dog>().SetDog(currentDog);
-        dogLobbyToggle.GetComponent<Image>().sprite = currentDog.thumbnail;
-        dogLobbyToggle.GetComponent<Toggle>().group = dogProfileIcons.GetComponent<ToggleGroup>();
+        dogLobbyToggle.transform.GetChild(1).GetComponent<Image>().sprite = currentDog.thumbnail;
+        dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().group = dogProfileIcons.GetComponent<ToggleGroup>();
+        dogLobbyToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentDog.name;
 
-        dogLobbyToggle.GetComponent<Toggle>().isOn = true;
+        dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
         onToggled(dogLobbyToggle, false);
 
-        dogLobbyToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate
+        dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.AddListener(delegate
         {
             onToggled(dogLobbyToggle, true);
         });

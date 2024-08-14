@@ -48,6 +48,9 @@ public class MainMenuCanvasManager : MonoBehaviour
     [Header("Passport UI")]
     public Button startButton;
 
+    [Header("Begin Adventure Canvas")]
+    public Button beginAdventureButton;
+
     public Transform availableDogs;
     public Transform walkingDogs;
     private bool firstTimeRun;
@@ -203,7 +206,7 @@ public class MainMenuCanvasManager : MonoBehaviour
     {
         if (currentDog.isNew)
         {
-            beginAdventureCanvas.SetActive(true);
+            StartCoroutine(StartBeginAdventure());
             GameManager.Instance.PlayAudio("winSound");
         }
         else
@@ -212,6 +215,18 @@ public class MainMenuCanvasManager : MonoBehaviour
             GameManager.Instance.PlayAudio("nextSound");
         }
     }
+
+    IEnumerator StartBeginAdventure()
+    {
+        beginAdventureButton.gameObject.SetActive(false);
+        beginAdventureCanvas.SetActive(true);
+        new WaitForSeconds(3);
+
+        beginAdventureButton.gameObject.SetActive(true);
+
+        yield return null;
+    }
+
 
     public void resetUI()
     {
@@ -259,12 +274,18 @@ public class MainMenuCanvasManager : MonoBehaviour
         }
 
         GameManager.Instance.addWalkingDogToDB(currentDog);
+
+        StartCoroutine(StartPassportAnimation());
         
+
+    }
+
+    IEnumerator StartPassportAnimation()
+    {
         passportCanvas.SetActive(true);
 
-        mainCanvas.SetActive(false);
         selectDestinationCanvas.SetActive(false);
-        switch(currentDog.country)
+        switch (currentDog.country)
         {
             case "Egypt":
                 passportCanvasEgypt.SetActive(true);
@@ -277,6 +298,12 @@ public class MainMenuCanvasManager : MonoBehaviour
                 break;
         }
 
+        new WaitForSeconds(9);
+
+        mainCanvas.SetActive(false);
+
+        startButton.gameObject.SetActive(true);
+
         // Show fun fact popup
         startButton.onClick.AddListener(delegate
         {
@@ -287,8 +314,10 @@ public class MainMenuCanvasManager : MonoBehaviour
             resetUI();
         });
 
-
+        
+        yield return null;
     }
+
 
     public void openMainMenuCanvas()
     {
