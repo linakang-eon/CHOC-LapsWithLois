@@ -202,8 +202,8 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             
 
-            DogProfileToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 125);
-            DogProfileToggle.transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 255, 255, 175);
+            DogProfileToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 175);
+            DogProfileToggle.transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 255, 255, 200);
             DogProfileToggle.transform.GetChild(0).gameObject.SetActive(false);
         }
 
