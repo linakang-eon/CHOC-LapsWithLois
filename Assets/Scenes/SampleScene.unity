@@ -1008,7 +1008,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -2287,7 +2287,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -29820,6 +29820,11 @@ MonoBehaviour:
   leaderboardCanvasManager: {fileID: 210629513}
   LoadingScreen: {fileID: 1548813418}
   factsDialogue: {fileID: 981288153}
+  travelVideos:
+  - {fileID: 32900000, guid: 14386ecdf1dc046598e7404356e294de, type: 3}
+  - {fileID: 32900000, guid: dda8cf5bc46584b39913ed7b06fffe92, type: 3}
+  - {fileID: 32900000, guid: 14a3d2def0a06473a9a5c6e23df321b0, type: 3}
+  - {fileID: 32900000, guid: cd87a237e5d29490ea929d0b58476c8d, type: 3}
   countryBGM:
   - {fileID: 8300000, guid: beec15606977a48838e210aa4bcef99a, type: 3}
   - {fileID: 8300000, guid: 398481a57be1a462a88fe598c5b208fb, type: 3}
@@ -30530,7 +30535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 1
+  m_AllowSwitchOff: 0
 --- !u!1 &1267018990
 GameObject:
   m_ObjectHideFlags: 0
@@ -35512,7 +35517,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 724a8dbc4db5946188ca456775435ab2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

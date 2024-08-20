@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LobbyCanvasManager : MonoBehaviour
 {
@@ -114,6 +115,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     IEnumerator GoToNextCity()
     {
+        travelAnimation.GetComponent<VideoPlayer>().clip = GameManager.Instance.GetRandomTravelVideo();
         travelAnimation.SetActive(true);
 
         yield return new WaitForSeconds(7);
@@ -235,7 +237,7 @@ public class LobbyCanvasManager : MonoBehaviour
     IEnumerator WaitFor30Seconds(GameObject dogLobbyToggle)
     {
         dogLobbyToggle.GetComponent<Dog>().timerDone = false;
-        yield return new WaitForSeconds(60);
+        yield return new WaitForSeconds(10);
         dogLobbyToggle.GetComponent<Dog>().timerDone = true;
         Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
         

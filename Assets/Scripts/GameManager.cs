@@ -6,6 +6,7 @@ using Firebase.Firestore;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
 
 
     private CollectionReference db;
+
+    public List<VideoClip> travelVideos;
 
     public List<AudioClip> countryBGM;
     public List<AudioClip> sfx;
@@ -157,6 +160,12 @@ public class GameManager : MonoBehaviour
         factsDialogue.Find(cityName).gameObject.SetActive(true);
         
 
+    }
+
+    internal VideoClip GetRandomTravelVideo()
+    {
+        System.Random rndm = new System.Random();
+        return travelVideos[rndm.Next(0, 4)];
     }
 
     public Sprite FindDogSpriteByName(string name)
