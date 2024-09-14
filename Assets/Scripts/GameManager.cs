@@ -23,7 +23,11 @@ public class GameManager : MonoBehaviour
 
     private CollectionReference db;
 
-    public List<VideoClip> travelVideos;
+    public List<GameObject> travelVideos;
+
+    public List<GameObject> goalReachedFranceVideos;
+    public List<GameObject> goalReachedEgyptVideos;
+    public List<GameObject> goalReachedJapanVideos;
 
     public List<AudioClip> countryBGM;
     public List<AudioClip> sfx;
@@ -47,6 +51,17 @@ public class GameManager : MonoBehaviour
 
         db = FirebaseFirestore.DefaultInstance.Collection("walkingDogs");
 
+        foreach(GameObject video in travelVideos)
+        {
+            video.GetComponent<VideoPlayer>().Prepare();
+        }
+
+        foreach (GameObject video in goalReachedFranceVideos)
+            video.GetComponent<VideoPlayer>().Prepare();
+        foreach (GameObject video in goalReachedEgyptVideos)
+            video.GetComponent<VideoPlayer>().Prepare();
+        foreach (GameObject video in goalReachedJapanVideos)
+            video.GetComponent<VideoPlayer>().Prepare();
     }
 
     // Update Dog in db if already exists
@@ -162,10 +177,24 @@ public class GameManager : MonoBehaviour
 
     }
 
-    internal VideoClip GetRandomTravelVideo()
+    internal GameObject GetRandomTravelVideo()
     {
         System.Random rndm = new System.Random();
-        return travelVideos[rndm.Next(0, 4)];
+        return travelVideos[rndm.Next(0, travelVideos.Count)];
+    }
+
+    internal GameObject GetRandomGoalReachedVideo(string country)
+    {
+        
+        System.Random rndm = new System.Random();
+
+        if (country == "France")
+            return goalReachedFranceVideos[rndm.Next(0, goalReachedFranceVideos.Count)];
+        if (country == "Egypt")
+            return goalReachedEgyptVideos[rndm.Next(0, goalReachedEgyptVideos.Count)];
+        
+        return goalReachedJapanVideos[rndm.Next(0, goalReachedJapanVideos.Count)];
+
     }
 
     public Sprite FindDogSpriteByName(string name)

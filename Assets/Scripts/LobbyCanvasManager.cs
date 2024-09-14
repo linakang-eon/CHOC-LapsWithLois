@@ -12,10 +12,8 @@ public class LobbyCanvasManager : MonoBehaviour
     [Header("Animations")]
     public GameObject backgroundAnimation;
     public GameObject goodJobAnimation;
-    public GameObject travelAnimation;
-    public GameObject goalReachedFrance;
-    public GameObject goalReachedEgypt;
-    public GameObject goalReachedJapan;
+    public List<VideoPlayer> travelAnimations;
+    
     public GameObject goalReachedBackButton;
     public GameObject goalReachedContinueButton;
     public GameObject loisEgypt;
@@ -37,7 +35,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     private List<GameObject> dogToggles;
 
-    
+    private GameObject currentGoalReachedScreenVideo;
 
     void Start()
     {
@@ -53,22 +51,25 @@ public class LobbyCanvasManager : MonoBehaviour
             currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
             // Go to main menu
-            currentGoalReachedScreen.SetActive(false);
+            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Stop();
+            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Prepare();
+            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = false;
+            
             GameManager.Instance.mainMenuCanvasManager.openMainMenuCanvas();
         });
 
         goalReachedContinueButton.GetComponent<Button>().onClick.AddListener(delegate
         {
-            currentCity.SetActive(false);
-            currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
-
             // Go to walking lois
-            currentGoalReachedScreen.SetActive(false);
-
-            GoToNextCity();
+            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Stop();
+            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Prepare();
+            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = false;
+            
+            StartCoroutine(GoToNextCity());
         });
 
         
+
     }
 
 
@@ -90,14 +91,13 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             string country = selectedDog.GetComponent<Dog>().country;
 
-            if (country == "France")
-                currentGoalReachedScreen = goalReachedFrance;
-            else if (country == "Egypt")
-                currentGoalReachedScreen = goalReachedEgypt;
-            else
-                currentGoalReachedScreen = goalReachedJapan;
+            
+            currentGoalReachedScreenVideo = GameManager.Instance.GetRandomGoalReachedVideo(country);
+            
+            
 
-            currentGoalReachedScreen.SetActive(true);
+            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = true;
+            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Play();
 
             goalReachedBackButton.SetActive(true);
             goalReachedContinueButton.SetActive(true);
@@ -105,8 +105,6 @@ public class LobbyCanvasManager : MonoBehaviour
         }
         else
         {
-            currentCity.SetActive(false);
-            currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
             StartCoroutine(GoToNextCity());
         }
@@ -114,15 +112,32 @@ public class LobbyCanvasManager : MonoBehaviour
     }
 
     IEnumerator GoToNextCity()
-    {
-        travelAnimation.GetComponent<VideoPlayer>().clip = GameManager.Instance.GetRandomTravelVideo();
-        travelAnimation.SetActive(true);
+    { 
+        GameObject travelAnimation = GameManager.Instance.GetRandomTravelVideo();
+        
+        travelAnimation.GetComponent<RawImage>().enabled = true;
+        travelAnimation.GetComponent<VideoPlayer>().Play();
+        travelAnimation.GetComponent<Animator>().enabled = true;
+        travelAnimation.GetComponent<Animator>().Play("Travel", 0, 0f);
+
+        currentCity.SetActive(false);
+        currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
+
+
 
         yield return new WaitForSeconds(7);
 
-        travelAnimation.SetActive(false);
 
         GameManager.Instance.ActivateFactDialogue(selectedDog.GetComponent<Dog>());
+
+
+        travelAnimation.GetComponent<VideoPlayer>().Stop();
+        travelAnimation.GetComponent<RawImage>().enabled = false;
+        travelAnimation.GetComponent<VideoPlayer>().Prepare();
+        travelAnimation.GetComponent<Animator>().enabled = false;
+        
+
+
 
         GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
     }

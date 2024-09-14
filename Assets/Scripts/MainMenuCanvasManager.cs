@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class MainMenuCanvasManager : MonoBehaviour
 {
@@ -13,12 +14,15 @@ public class MainMenuCanvasManager : MonoBehaviour
     public GameObject mainCanvas;
     public GameObject leaderboardsCanvas;
     public GameObject beginAdventureCanvas;
+    public GameObject beginAdventureVideoPlayer;
+    public GameObject beginAdventureDialogue;
     public GameObject selectDestinationCanvas;
     public GameObject lobbyCanvas;
     public GameObject passportCanvas;
     public GameObject passportCanvasFrance;
     public GameObject passportCanvasEgypt;
     public GameObject passportCanvasJapan;
+    public GameObject passportVideoPlayer;
 
     [Header("New Patient")]
     public GameObject backButtonLeftPanel;
@@ -70,6 +74,8 @@ public class MainMenuCanvasManager : MonoBehaviour
         confirmButton.onClick.AddListener(onConfirmButtonPressed);
 
         firstTimeRun = true;
+
+        passportVideoPlayer.GetComponent<VideoPlayer>().Prepare();
     }
 
     public void resetMainMenuUI()
@@ -218,11 +224,24 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     IEnumerator StartBeginAdventure()
     {
-        beginAdventureButton.gameObject.SetActive(false);
-        beginAdventureCanvas.SetActive(true);
-        new WaitForSeconds(3);
+        beginAdventureVideoPlayer.GetComponent<RawImage>().enabled = true;
+        beginAdventureVideoPlayer.GetComponent<VideoPlayer>().Play();
+        beginAdventureDialogue.SetActive(true);
 
-        beginAdventureButton.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+
+        beginAdventureButton.interactable = true;
+
+        beginAdventureButton.onClick.AddListener(delegate
+        {
+            beginAdventureVideoPlayer.GetComponent<RawImage>().enabled = false;
+            beginAdventureVideoPlayer.GetComponent<VideoPlayer>().Stop();
+            beginAdventureVideoPlayer.GetComponent<VideoPlayer>().Prepare();
+            beginAdventureDialogue.SetActive(false);
+            beginAdventureButton.interactable = false;
+            
+            selectDestinationCanvas.SetActive(true);
+        });
 
         yield return null;
     }
@@ -282,7 +301,13 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     IEnumerator StartPassportAnimation()
     {
-        passportCanvas.SetActive(true);
+        
+        passportVideoPlayer.GetComponent<RawImage>().enabled = true;
+        passportVideoPlayer.GetComponent<VideoPlayer>().Play();
+        startButton.gameObject.SetActive(true);
+
+        //passportCanvas.SetActive(true);
+        
 
         selectDestinationCanvas.SetActive(false);
         switch (currentDog.country)
@@ -298,11 +323,11 @@ public class MainMenuCanvasManager : MonoBehaviour
                 break;
         }
 
-        new WaitForSeconds(9);
+        yield return new WaitForSeconds(8);
 
         mainCanvas.SetActive(false);
 
-        startButton.gameObject.SetActive(true);
+        startButton.interactable = true;
 
         // Show fun fact popup
         startButton.onClick.AddListener(delegate
@@ -312,6 +337,13 @@ public class MainMenuCanvasManager : MonoBehaviour
             GameManager.Instance.ActivateFactDialogue(currentDog);
             GameManager.Instance.PlayAudio(currentDog.country);
             resetUI();
+            
+
+            passportVideoPlayer.GetComponent<RawImage>().enabled = false;
+            passportVideoPlayer.GetComponent<VideoPlayer>().Stop();
+            passportVideoPlayer.GetComponent<VideoPlayer>().Prepare();
+            startButton.gameObject.SetActive(false);
+            startButton.interactable = false;
         });
 
         
