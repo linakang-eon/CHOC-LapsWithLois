@@ -138,6 +138,8 @@ public class LeaderboardCanvasManager : MonoBehaviour
             Destroy(dog);
 
         }
+        sortedWalkingDogs.Clear();
+        GC.Collect();
         Gold.SetActive(false);
         Bronze.SetActive(false);
         Silver.SetActive(false);

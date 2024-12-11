@@ -34,7 +34,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     private List<GameObject> dogToggles;
 
-    private GameObject currentGoalReachedScreenVideo;
+    private GameManager gameManager => GameManager.Instance;
 
     void Start()
     {
@@ -49,25 +49,19 @@ public class LobbyCanvasManager : MonoBehaviour
             currentCity.SetActive(false);
             currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
+            gameManager.StopGoalReachedVideo();
             // Go to main menu
-            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Stop();
-            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Prepare();
-            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = false;
-            
-            GameManager.Instance.mainMenuCanvasManager.openMainMenuCanvas();
+
+            gameManager.mainMenuCanvasManager.openMainMenuCanvas();
         });
 
         goalReachedContinueButton.GetComponent<Button>().onClick.AddListener(delegate
         {
             // Go to walking lois
-            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Stop();
-            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Prepare();
-            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = false;
+            gameManager.StopGoalReachedVideo();
 
             GoToNextCity();
         });
-
-        
 
     }
 
@@ -90,7 +84,7 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             string country = selectedDog.GetComponent<Dog>().country;
 
-            GameManager.Instance.PlayRandomGoalReachedVideo(country);
+            gameManager.PlayRandomGoalReachedVideo(country);
             
             goalReachedBackButton.SetActive(true);
             goalReachedContinueButton.SetActive(true);
@@ -109,7 +103,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     private void GoToNextCity()
     {
-        StartCoroutine(GameManager.Instance.PlayRandomTravelVideo(selectedDog.GetComponent<Dog>()));
+        StartCoroutine(gameManager.PlayRandomTravelVideo(selectedDog.GetComponent<Dog>()));
 
         currentCity.SetActive(false);
         currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
@@ -179,7 +173,7 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             if(playAudioYesOrNo)
             {
-                GameManager.Instance.PlayAudio("dogToggleLobby");
+                gameManager.PlayAudio("dogToggleLobby");
             }
 
             DogProfileToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color32(0, 100, 164, 255);

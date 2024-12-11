@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> goalReachedFranceVideos;
     public List<GameObject> goalReachedEgyptVideos;
     public List<GameObject> goalReachedJapanVideos;
+    public GameObject currentGoalReachedVideo;
 
     public List<GameObject> passportMontageVideos;
 
@@ -231,17 +232,24 @@ public class GameManager : MonoBehaviour
     {
         goalReachedScreen.SetActive(true);
         System.Random rndm = new System.Random();
-        GameObject video;
+
         if (country == "France")
-            video = goalReachedFranceVideos[rndm.Next(0, goalReachedFranceVideos.Count)];
+            currentGoalReachedVideo = goalReachedFranceVideos[rndm.Next(0, goalReachedFranceVideos.Count)];
         else if (country == "Egypt")
-            video = goalReachedEgyptVideos[rndm.Next(0, goalReachedEgyptVideos.Count)];
+            currentGoalReachedVideo = goalReachedEgyptVideos[rndm.Next(0, goalReachedEgyptVideos.Count)];
         else
-            video = goalReachedJapanVideos[rndm.Next(0, goalReachedJapanVideos.Count)];
+            currentGoalReachedVideo = goalReachedJapanVideos[rndm.Next(0, goalReachedJapanVideos.Count)];
 
 
-        video.GetComponent<RawImage>().enabled = true;
-        video.GetComponent<VideoPlayer>().Play();
+        currentGoalReachedVideo.GetComponent<RawImage>().enabled = true;
+        currentGoalReachedVideo.GetComponent<VideoPlayer>().Play();
+    }
+
+    public void StopGoalReachedVideo()
+    {
+        currentGoalReachedVideo.GetComponent<VideoPlayer>().Stop();
+        currentGoalReachedVideo.GetComponent<VideoPlayer>().Prepare();
+        currentGoalReachedVideo.GetComponent<RawImage>().enabled = false;
     }
 
     public Sprite FindDogSpriteByName(string name)
