@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,15 +20,23 @@ public class GameManager : MonoBehaviour
     public GameObject LoadingScreen;
 
     public Transform factsDialogue;
+    public GameObject newUserDialogue;
 
+    public GameObject resetAllDogsDialogue;
+    private int resetNumber;
+    public List<GameObject> resetButtonClickIndicators;
 
     private CollectionReference db;
 
+    public GameObject travelScreen;
     public List<GameObject> travelVideos;
 
+    public GameObject goalReachedScreen;
     public List<GameObject> goalReachedFranceVideos;
     public List<GameObject> goalReachedEgyptVideos;
     public List<GameObject> goalReachedJapanVideos;
+
+    public List<GameObject> passportMontageVideos;
 
     public List<AudioClip> countryBGM;
     public List<AudioClip> sfx;
@@ -43,7 +52,10 @@ public class GameManager : MonoBehaviour
 
     private bool firstTimeRun = true;
 
+    private GameObject currentFactsDialogue;
 
+    private string todaysDate = DateTime.Now.Date.ToString();
+    private Coroutine countToTen;
 
     private void Awake()
     {
@@ -85,17 +97,11 @@ public class GameManager : MonoBehaviour
         if(snap == null)
             snap = await db.GetSnapshotAsync();
 
-        
-
         IEnumerable<DocumentSnapshot> documents = snap.Documents as IEnumerable<DocumentSnapshot>;
 
         DogModel date = documents.ElementAt(0).ConvertTo<DogModel>();
 
-        string todaysDate = DateTime.Now.Date.ToString();
-
         dogModels = new List<DogModel>();
-
-        
 
         if (date.Name != todaysDate)
         {
@@ -110,7 +116,8 @@ public class GameManager : MonoBehaviour
 
             DogModel today = new DogModel();
             today.Id = "0";
-            today.Name = todaysDate;
+            today.Name = DateTime.Now.Date.ToString();
+            todaysDate = DateTime.Now.Date.ToString();
             db.Document(today.Id).SetAsync(today);
 
         }
@@ -121,7 +128,8 @@ public class GameManager : MonoBehaviour
                 DogModel data = documents.ElementAt(i).ConvertTo<DogModel>();
                 dogModels.Add(data);
             }
-            
+            todaysDate = DateTime.Now.Date.ToString();
+
         }
 
         if(firstTimeRun)
@@ -142,6 +150,7 @@ public class GameManager : MonoBehaviour
         querySnapshot =>
         {
             load(querySnapshot);
+
         });
     }
 
@@ -172,29 +181,67 @@ public class GameManager : MonoBehaviour
                 break;
         }
         cityName = "facts " + cityTransform.name;
-        factsDialogue.Find(cityName).gameObject.SetActive(true);
         
-
+        currentFactsDialogue = factsDialogue.Find(cityName).gameObject;
+        currentFactsDialogue.SetActive(true);
     }
 
-    internal GameObject GetRandomTravelVideo()
+    public void TurnOffFactsDialogue()
     {
-        System.Random rndm = new System.Random();
-        return travelVideos[rndm.Next(0, travelVideos.Count)];
+        if(currentFactsDialogue != null)
+            currentFactsDialogue.SetActive(false);
     }
 
-    internal GameObject GetRandomGoalReachedVideo(string country)
-    {
-        
-        System.Random rndm = new System.Random();
 
+    public IEnumerator PlayRandomTravelVideo(Dog selectedDog)
+    {
+        travelScreen.SetActive(true);
+        System.Random rndm = new System.Random();
+        GameObject video = travelVideos[rndm.Next(0, travelVideos.Count)];
+
+
+        video.GetComponent<RawImage>().enabled = true;
+        video.GetComponent<VideoPlayer>().Play();
+        video.GetComponent<Animator>().enabled = true;
+        video.GetComponent<Animator>().Play("Travel", 0, 0f);
+
+        yield return new WaitForSeconds(7);
+
+        ActivateFactDialogue(selectedDog);
+
+
+        video.GetComponent<VideoPlayer>().Stop();
+        video.GetComponent<RawImage>().enabled = false;
+        video.GetComponent<VideoPlayer>().Prepare();
+        video.GetComponent<Animator>().enabled = false;
+
+        travelScreen.SetActive(false);
+
+        PlayAudio(selectedDog.country);
+
+    }
+    internal GameObject GetRandomPassportVideo()
+    {
+        System.Random rndm = new System.Random();
+        return passportMontageVideos[rndm.Next(0, passportMontageVideos.Count)];
+    }
+    
+
+    public void PlayRandomGoalReachedVideo(string country)
+    {
+        goalReachedScreen.SetActive(true);
+        System.Random rndm = new System.Random();
+        GameObject video;
         if (country == "France")
-            return goalReachedFranceVideos[rndm.Next(0, goalReachedFranceVideos.Count)];
-        if (country == "Egypt")
-            return goalReachedEgyptVideos[rndm.Next(0, goalReachedEgyptVideos.Count)];
-        
-        return goalReachedJapanVideos[rndm.Next(0, goalReachedJapanVideos.Count)];
+            video = goalReachedFranceVideos[rndm.Next(0, goalReachedFranceVideos.Count)];
+        else if (country == "Egypt")
+            video = goalReachedEgyptVideos[rndm.Next(0, goalReachedEgyptVideos.Count)];
+        else
+            video = goalReachedJapanVideos[rndm.Next(0, goalReachedJapanVideos.Count)];
 
+
+        video.GetComponent<RawImage>().enabled = true;
+        video.GetComponent<VideoPlayer>().Play();
     }
 
     public Sprite FindDogSpriteByName(string name)
@@ -245,6 +292,72 @@ public class GameManager : MonoBehaviour
                 gameObject.GetComponent<AudioSource>().PlayOneShot(sfx[1], 0.3f);
                 break;
         }
+    }
+
+    public void StopCurrentAudio()
+    {
+        gameObject.GetComponent<AudioSource>().Stop();
+    }
+
+    internal void ActivateNewUserDialogue()
+    {
+        newUserDialogue.SetActive(true);
+    }
+
+    public void OpenResetDogsDialogue(int leftOrRight)
+    {
+        // The user must click the left (aka 0) first, then right (aka 1), and lastly left (aka 0) in ORDER to activate RESET
+
+        // If the user does not perform this routine within 10 seconds,
+        //  the number will reset and the user must redo the order from beginning in order to activate the reset
+
+        if (resetNumber == 0)
+        {
+            countToTen = StartCoroutine(CountToTen());
+
+            if (leftOrRight == 0)
+            {
+                resetButtonClickIndicators[0].SetActive(true);
+                resetNumber = 1;
+            }
+        }
+        else if (resetNumber == 1 && leftOrRight == 1)
+        {
+            resetNumber = 2;
+            resetButtonClickIndicators[1].SetActive(true);
+        }
+        else if (resetNumber == 2 && leftOrRight == 0)
+        {
+            resetNumber = 0;
+            resetAllDogsDialogue.SetActive(true);
+            resetButtonClickIndicators[0].SetActive(false);
+            resetButtonClickIndicators[1].SetActive(false);
+            StopCoroutine(countToTen);
+        }
+        else
+        {
+            resetNumber = 0;
+            StopCoroutine(countToTen);
+            resetButtonClickIndicators[0].SetActive(false);
+            resetButtonClickIndicators[1].SetActive(false);
+        }
+    }
+
+    public void ResetAllDogs()
+    {
+        resetButtonClickIndicators[0].SetActive(false);
+        resetButtonClickIndicators[1].SetActive(false);
+        todaysDate = "0";
+        load();
+    }
+
+    IEnumerator CountToTen()
+    {
+        yield return new WaitForSeconds(10);
+
+        resetNumber = 0;
+        resetButtonClickIndicators[0].SetActive(false);
+        resetButtonClickIndicators[1].SetActive(false);
     }
 }
 

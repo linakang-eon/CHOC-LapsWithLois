@@ -25,6 +25,7 @@ public class MainMenuCanvasManager : MonoBehaviour
     public GameObject passportVideoPlayer;
 
     [Header("New Patient")]
+    public GameObject leftPanel;
     public GameObject backButtonLeftPanel;
     public GameObject rightPanelFirst;
     public GameObject rightPanelSecond;
@@ -60,12 +61,14 @@ public class MainMenuCanvasManager : MonoBehaviour
     private bool firstTimeRun;
     public GameObject dogTogglePrefab;
     public GameObject dogWalkingTogglePrefab;
+
+    private GameManager gameManager => GameManager.Instance;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.load();
+        gameManager.load();
 
         addCheckpointButton.onClick.AddListener(addCheckpoint);
         subtractCheckpointButton.onClick.AddListener(subtractCheckpoint);
@@ -76,22 +79,23 @@ public class MainMenuCanvasManager : MonoBehaviour
         firstTimeRun = true;
 
         passportVideoPlayer.GetComponent<VideoPlayer>().Prepare();
+
     }
 
     public void resetMainMenuUI()
     {
-        if (GameManager.Instance.dogModels.Count() == 0)
+        if (gameManager.dogModels.Count() == 0)
         {
             // Scorched Earth
-            for(int i = 0; i < GameManager.Instance.walkingDogs.Count(); i++)
+            for(int i = 0; i < gameManager.walkingDogs.Count(); i++)
             {
-                Dog dogToggle = GameManager.Instance.walkingDogs[i];
+                Dog dogToggle = gameManager.walkingDogs[i];
                 GameObject walkingDogTogglePrefabClone = dogToggle.transform.parent.gameObject;
                 dogToggle.transform.SetParent(availableDogs);
                 dogToggle.transform.localScale = new Vector3(1f, 1f, 1f);
                 dogToggle.Reset();
                 Destroy(walkingDogTogglePrefabClone);
-                GameManager.Instance.walkingDogs.Remove(dogToggle);
+                gameManager.walkingDogs.Remove(dogToggle);
                 i--;
             }
 
@@ -99,18 +103,18 @@ public class MainMenuCanvasManager : MonoBehaviour
             leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().scorchedEarth();
         }
 
-        foreach (GameObject dogToggle in GameManager.Instance.allDogs)
+        foreach (GameObject dogToggle in gameManager.allDogs)
         {
             Dog currentDog = dogToggle.GetComponent<Dog>();
 
             dogToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { onDogPressed(dogToggle); });
 
-            foreach (DogModel dogModel in GameManager.Instance.dogModels)
+            foreach (DogModel dogModel in gameManager.dogModels)
             {
                 if (currentDog.name == dogModel.Name)
                 {
                     currentDog.InitializeFromModel(dogModel);
-                    if (!GameManager.Instance.walkingDogs.Contains(currentDog))
+                    if (!gameManager.walkingDogs.Contains(currentDog))
                     {
                         GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
                         dogToggle.transform.SetParent(dogWalkingToggle.transform);
@@ -121,7 +125,7 @@ public class MainMenuCanvasManager : MonoBehaviour
                         lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
                         if (currentDog.leaderboards_opt_in)
                             leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
-                        GameManager.Instance.walkingDogs.Add(currentDog);
+                        gameManager.walkingDogs.Add(currentDog);
                     }
                     else
                     {
@@ -133,13 +137,14 @@ public class MainMenuCanvasManager : MonoBehaviour
                 }
             }
         }
-
+        GC.Collect();
+        Resources.UnloadUnusedAssets();
 
     }
 
     public async Task reloadMainMenuUI()
     {
-        await GameManager.Instance.load();
+        await gameManager.load();
     }
 
 
@@ -200,12 +205,12 @@ public class MainMenuCanvasManager : MonoBehaviour
             checkpointsCounter.SetActive(false);
             addCheckpointButton.gameObject.SetActive(true);
             subtractCheckpointButton.gameObject.SetActive(true);
-            checkpointGoalText.text = "0";
+            checkpointGoalText.text = "1";
         }
 
         // PLay Audio
 
-        GameManager.Instance.PlayAudio("dogToggleMenu");
+        gameManager.PlayAudio("dogToggleMenu");
     }
 
     public void onNextButtonPressed()
@@ -213,13 +218,16 @@ public class MainMenuCanvasManager : MonoBehaviour
         if (currentDog.isNew)
         {
             StartCoroutine(StartBeginAdventure());
-            GameManager.Instance.PlayAudio("winSound");
+            gameManager.PlayAudio("winSound");
         }
         else
         {
             selectDestinationCanvas.SetActive(true);
-            GameManager.Instance.PlayAudio("nextSound");
+            gameManager.PlayAudio("nextSound");
         }
+
+        GC.Collect();
+        Resources.UnloadUnusedAssets();
     }
 
     IEnumerator StartBeginAdventure()
@@ -266,13 +274,18 @@ public class MainMenuCanvasManager : MonoBehaviour
     public void onConfirmButtonPressed()
     {
         currentDog.leaderboards_opt_in = yesLeaderboards.isOn;
-        currentDog.country = destinationToggleGroup.ActiveToggles().FirstOrDefault().name;
+        string chosenDestination = destinationToggleGroup.ActiveToggles().FirstOrDefault().name;
+        if (currentDog.country != chosenDestination)
+        {
+            currentDog.cityIndex = 0;
+            currentDog.country = chosenDestination;
+        }
 
         if (currentDog.isNew)
         {
             currentDog.SetCheckpoints(checkpointGoalText);
             currentDog.initializeData();
-            GameManager.Instance.walkingDogs.Add(currentDog);
+            gameManager.walkingDogs.Add(currentDog);
             GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
             currentDog.gameObject.transform.SetParent(dogWalkingToggle.transform);
             currentDog.gameObject.transform.SetSiblingIndex(0);
@@ -292,7 +305,7 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         }
 
-        GameManager.Instance.addWalkingDogToDB(currentDog);
+        gameManager.addWalkingDogToDB(currentDog);
 
         StartCoroutine(StartPassportAnimation());
         
@@ -301,7 +314,7 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     IEnumerator StartPassportAnimation()
     {
-        
+        passportVideoPlayer = gameManager.GetRandomPassportVideo();
         passportVideoPlayer.GetComponent<RawImage>().enabled = true;
         passportVideoPlayer.GetComponent<VideoPlayer>().Play();
         startButton.gameObject.SetActive(true);
@@ -334,8 +347,9 @@ public class MainMenuCanvasManager : MonoBehaviour
         {
             if (currentDog == null)
                 return;
-            GameManager.Instance.ActivateFactDialogue(currentDog);
-            GameManager.Instance.PlayAudio(currentDog.country);
+            gameManager.ActivateNewUserDialogue();
+            //gameManager.ActivateFactDialogue(currentDog);
+            gameManager.PlayAudio(currentDog.country);
             resetUI();
             
 
@@ -353,13 +367,46 @@ public class MainMenuCanvasManager : MonoBehaviour
 
     public void openMainMenuCanvas()
     {
+        // turn off facts dialogue
+        gameManager.TurnOffFactsDialogue();
+
+        // turn off music
+
+        gameManager.StopCurrentAudio();
+
+
+        //RefreshLayout(leftPanel);
         mainCanvas.SetActive(true);
+
+        GC.Collect();
+        Resources.UnloadUnusedAssets();
     }
 
-    public void openLeaderboardsCanvas()
+    // Instead of refreshing the layout, use correct way Unity UI - Gameobjects should NOT have ContentSizeFitter if it has LayoutGroup Component. Use LayoutElement in addition instead.
+
+    //private void RefreshLayout(GameObject target)
+    //{
+    //    StartCoroutine(DelayByFrames(
+    //                    () =>
+    //                    {
+    //                        if (target != null)
+    //                        {
+    //                            var rects = target.GetComponentsInChildren<RectTransform>();
+    //                            foreach (var rect in rects)
+    //                            {
+    //                                LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+    //                            }
+    //                        }
+    //                    },
+    //                    1
+    //                )
+    //            );
+
+    //}
+
+    private IEnumerator DelayByFrames(Action action, int frames)
     {
-        leaderboardsCanvas.SetActive(true);
-
+        yield return frames;
+        action();
     }
-
 }

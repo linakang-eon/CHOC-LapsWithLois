@@ -12,7 +12,6 @@ public class LobbyCanvasManager : MonoBehaviour
     [Header("Animations")]
     public GameObject backgroundAnimation;
     public GameObject goodJobAnimation;
-    public List<VideoPlayer> travelAnimations;
     
     public GameObject goalReachedBackButton;
     public GameObject goalReachedContinueButton;
@@ -64,8 +63,8 @@ public class LobbyCanvasManager : MonoBehaviour
             currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Stop();
             currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Prepare();
             currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = false;
-            
-            StartCoroutine(GoToNextCity());
+
+            GoToNextCity();
         });
 
         
@@ -91,14 +90,8 @@ public class LobbyCanvasManager : MonoBehaviour
         {
             string country = selectedDog.GetComponent<Dog>().country;
 
+            GameManager.Instance.PlayRandomGoalReachedVideo(country);
             
-            currentGoalReachedScreenVideo = GameManager.Instance.GetRandomGoalReachedVideo(country);
-            
-            
-
-            currentGoalReachedScreenVideo.GetComponent<RawImage>().enabled = true;
-            currentGoalReachedScreenVideo.GetComponent<VideoPlayer>().Play();
-
             goalReachedBackButton.SetActive(true);
             goalReachedContinueButton.SetActive(true);
 
@@ -106,40 +99,21 @@ public class LobbyCanvasManager : MonoBehaviour
         else
         {
 
-            StartCoroutine(GoToNextCity());
+            GoToNextCity();
         }
         StartCoroutine(WaitFor30Seconds(selectedDog));
+
+        GC.Collect();
+        Resources.UnloadUnusedAssets();
     }
 
-    IEnumerator GoToNextCity()
-    { 
-        GameObject travelAnimation = GameManager.Instance.GetRandomTravelVideo();
-        
-        travelAnimation.GetComponent<RawImage>().enabled = true;
-        travelAnimation.GetComponent<VideoPlayer>().Play();
-        travelAnimation.GetComponent<Animator>().enabled = true;
-        travelAnimation.GetComponent<Animator>().Play("Travel", 0, 0f);
+    private void GoToNextCity()
+    {
+        StartCoroutine(GameManager.Instance.PlayRandomTravelVideo(selectedDog.GetComponent<Dog>()));
 
         currentCity.SetActive(false);
         currentCountry.transform.GetChild(selectedDog.GetComponent<Dog>().cityIndex).gameObject.SetActive(true);
 
-
-
-        yield return new WaitForSeconds(7);
-
-
-        GameManager.Instance.ActivateFactDialogue(selectedDog.GetComponent<Dog>());
-
-
-        travelAnimation.GetComponent<VideoPlayer>().Stop();
-        travelAnimation.GetComponent<RawImage>().enabled = false;
-        travelAnimation.GetComponent<VideoPlayer>().Prepare();
-        travelAnimation.GetComponent<Animator>().enabled = false;
-        
-
-
-
-        GameManager.Instance.PlayAudio(selectedDog.GetComponent<Dog>().country);
     }
 
     internal void scorchedEarth()
@@ -247,14 +221,21 @@ public class LobbyCanvasManager : MonoBehaviour
         
 
         StartCoroutine(WaitFor30Seconds(dogLobbyToggle));
+
+        GC.Collect();
+        Resources.UnloadUnusedAssets();
     }
 
     IEnumerator WaitFor30Seconds(GameObject dogLobbyToggle)
     {
-        dogLobbyToggle.GetComponent<Dog>().timerDone = false;
-        yield return new WaitForSeconds(10);
-        dogLobbyToggle.GetComponent<Dog>().timerDone = true;
-        Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
+        if (dogLobbyToggle != null)
+        {
+            dogLobbyToggle.GetComponent<Dog>().timerDone = false;
+            yield return new WaitForSeconds(10);
+            dogLobbyToggle.GetComponent<Dog>().timerDone = true;
+            Debug.Log(dogLobbyToggle.GetComponent<Dog>().name + " - checkpoint button activated");
+        }
+        
         
     }
 

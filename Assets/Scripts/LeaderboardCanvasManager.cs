@@ -32,16 +32,19 @@ public class LeaderboardCanvasManager : MonoBehaviour
         {
             Gold.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[0].thumbnail;
             Gold.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].checkpointsDone.ToString();
+            Gold.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].name;
             Gold.SetActive(true);
             if(sortedWalkingDogs.Count > 1)
             {
                 Silver.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[1].thumbnail;
                 Silver.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].checkpointsDone.ToString();
+                Silver.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].name;
                 Silver.SetActive(true);
                 if(sortedWalkingDogs.Count > 2)
                 {
                     Bronze.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[2].thumbnail;
                     Bronze.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].checkpointsDone.ToString();
+                    Bronze.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].name;
                     Bronze.SetActive(true);
 
                     if(sortedWalkingDogs.Count > 3)
@@ -53,6 +56,7 @@ public class LeaderboardCanvasManager : MonoBehaviour
                             dogPrefab.GetComponent<Dog>().SetDog(sortedWalkingDogs[i]);
                             dogPrefab.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[i].thumbnail;
                             dogPrefab.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[i].checkpointsDone.ToString();
+                            dogPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[i].name;
                         }
 
                     }
@@ -94,16 +98,21 @@ public class LeaderboardCanvasManager : MonoBehaviour
         {
             Gold.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[0].thumbnail;
             Gold.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].checkpointsDone.ToString();
+            Gold.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].name;
+
             Gold.SetActive(true);
             if (sortedWalkingDogs.Count > 1)
             {
                 Silver.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[1].thumbnail;
                 Silver.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].checkpointsDone.ToString();
+                Silver.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].name;
                 Silver.SetActive(true);
                 if (sortedWalkingDogs.Count > 2)
                 {
                     Bronze.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[2].thumbnail;
                     Bronze.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].checkpointsDone.ToString();
+                    Bronze.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].name;
+
                     Bronze.SetActive(true);
 
                     if (sortedWalkingDogs.Count > 3)
@@ -112,6 +121,7 @@ public class LeaderboardCanvasManager : MonoBehaviour
                         dogPrefab.GetComponent<Dog>().SetDog(dog);
                         dogPrefab.transform.Find("Image").GetComponent<Image>().sprite = dog.thumbnail;
                         dogPrefab.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = dog.checkpointsDone.ToString();
+                        dogPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = dog.name;
                         sortedWalkingDogsGameObjects.Add(dogPrefab);
                     }
 
@@ -184,16 +194,19 @@ public class LeaderboardCanvasManager : MonoBehaviour
         {
             Gold.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[0].thumbnail;
             Gold.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].checkpointsDone.ToString();
+            Gold.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[0].name;
             Gold.SetActive(true);
             if (sortedWalkingDogs.Count > 1)
             {
                 Silver.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[1].thumbnail;
                 Silver.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].checkpointsDone.ToString();
+                Silver.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[1].name;
                 Silver.SetActive(true);
                 if (sortedWalkingDogs.Count > 2)
                 {
                     Bronze.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[2].thumbnail;
                     Bronze.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].checkpointsDone.ToString();
+                    Bronze.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[2].name;
                     Bronze.SetActive(true);
 
                     if (sortedWalkingDogs.Count > 3)
@@ -209,6 +222,7 @@ public class LeaderboardCanvasManager : MonoBehaviour
                             dogPrefab.GetComponent<Dog>().SetDog(sortedWalkingDogs[j]);
                             dogPrefab.transform.Find("Image").GetComponent<Image>().sprite = sortedWalkingDogs[j].thumbnail;
                             dogPrefab.transform.Find("Number").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[j].checkpointsDone.ToString();
+                            dogPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = sortedWalkingDogs[j].name;
                             sortedWalkingDogsGameObjects.Add(dogPrefab);
                         }
                     }
@@ -248,7 +262,14 @@ public class LeaderboardCanvasManager : MonoBehaviour
 
     public void openLeaderboardCanvas()
     {
-        if(sortedWalkingDogs.Count == 0)
+        // turn off facts dialogue
+        GameManager.Instance.TurnOffFactsDialogue();
+
+        // turn off music
+
+        GameManager.Instance.StopCurrentAudio();
+
+        if (sortedWalkingDogs.Count == 0)
         {
             TopThreePanel.SetActive(false);
             CurrentWalkingDogsTransform.gameObject.SetActive(false);
