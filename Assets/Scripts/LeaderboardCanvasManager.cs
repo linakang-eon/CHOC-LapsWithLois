@@ -286,4 +286,10 @@ public class LeaderboardCanvasManager : MonoBehaviour
 
         gameObject.SetActive(true);
     }
+
+    public void DeleteWalkingDog()
+    {
+        scorchedEarth();
+        InitializeLeaderboards();
+    }
 }

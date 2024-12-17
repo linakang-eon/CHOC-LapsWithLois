@@ -42,7 +42,7 @@ public class Dog : MonoBehaviour
             cityIndex = 0;
         Data.CityIndex = cityIndex;
         //currentDeviceUUID = SystemInfo.deviceUniqueIdentifier;
-        GameManager.Instance.addWalkingDogToDB(this);
+        GameManager.Instance.addWalkingDog(this, false);
         return checkpointsDone == checkpointsGoal;
     }
     public void SetDog(Dog dog)

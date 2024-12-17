@@ -125,7 +125,8 @@ public class MainMenuCanvasManager : MonoBehaviour
                         lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
                         if (currentDog.leaderboards_opt_in)
                             leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
-                        gameManager.walkingDogs.Add(currentDog);
+                        
+                        gameManager.addWalkingDog(currentDog, true, true);
                     }
                     else
                     {
@@ -136,6 +137,23 @@ public class MainMenuCanvasManager : MonoBehaviour
                     break;
                 }
             }
+        }
+        bool exists = false;
+        foreach(Dog dog in gameManager.walkingDogs)
+        {
+            foreach(DogModel dogModel in gameManager.dogModels)
+            {
+                if(dog.id == dogModel.Id)
+                {
+                    exists = true;
+                }
+            }
+            if(!exists)
+            {
+                gameManager.DeleteDogUI(dog);
+                
+            }
+            exists = false;
         }
         GC.Collect();
         Resources.UnloadUnusedAssets();
@@ -285,7 +303,8 @@ public class MainMenuCanvasManager : MonoBehaviour
         {
             currentDog.SetCheckpoints(checkpointGoalText);
             currentDog.initializeData();
-            gameManager.walkingDogs.Add(currentDog);
+            
+            gameManager.addWalkingDog(currentDog, true);
             GameObject dogWalkingToggle = Instantiate(dogWalkingTogglePrefab, walkingDogs);
             currentDog.gameObject.transform.SetParent(dogWalkingToggle.transform);
             currentDog.gameObject.transform.SetSiblingIndex(0);
@@ -303,9 +322,10 @@ public class MainMenuCanvasManager : MonoBehaviour
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().updateDog(currentDog);
 
+            gameManager.addWalkingDog(currentDog, false);
         }
 
-        gameManager.addWalkingDogToDB(currentDog);
+        
 
         StartCoroutine(StartPassportAnimation());
         
@@ -380,6 +400,19 @@ public class MainMenuCanvasManager : MonoBehaviour
 
         GC.Collect();
         Resources.UnloadUnusedAssets();
+    }
+
+    public void DeleteWalkingDog(Dog dog)
+    {
+        
+
+        GameObject walkingDogTogglePrefabClone = dog.transform.parent.gameObject;
+        dog.transform.SetParent(availableDogs);
+        dog.transform.localScale = new Vector3(1f, 1f, 1f);
+        dog.Reset();
+        Destroy(walkingDogTogglePrefabClone);
+        
+
     }
 
     // Instead of refreshing the layout, use correct way Unity UI - Gameobjects should NOT have ContentSizeFitter if it has LayoutGroup Component. Use LayoutElement in addition instead.

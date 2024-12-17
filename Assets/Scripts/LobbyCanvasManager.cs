@@ -249,4 +249,17 @@ public class LobbyCanvasManager : MonoBehaviour
 
     }
 
+    public void DeleteWalkingDog(Dog dog)
+    {
+        foreach(GameObject toggle in dogToggles)
+        {
+            if(toggle.GetComponent<Dog>().id == dog.id)
+            {
+                dogToggles.Remove(toggle);
+                Destroy(toggle);
+                break;
+            }
+        }
+    }
+
 }

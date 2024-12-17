@@ -8,6 +8,8 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System.Collections;
+using TMPro;
+using Firebase.Extensions;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,9 +24,14 @@ public class GameManager : MonoBehaviour
     public Transform factsDialogue;
     public GameObject newUserDialogue;
 
+    // Admin Panel
     public GameObject resetAllDogsDialogue;
     private int resetNumber;
     public List<GameObject> resetButtonClickIndicators;
+    public TMP_Dropdown dogDropdownDelete;
+    public TMP_Dropdown dogDropdownCheckpoint;
+    public TMP_InputField dogCheckpointInputField;
+    public GameObject confirmedDialog;
 
     private CollectionReference db;
 
@@ -78,19 +85,44 @@ public class GameManager : MonoBehaviour
     }
 
     // Update Dog in db if already exists
-    public void addWalkingDogToDB(Dog dog)
+    public void addWalkingDog(Dog dog, bool addingNewDog, bool doNotUpdateDB = false)
     {
-        DogModel model = new DogModel();
-        model.Id = dog.id;
-        model.Name = dog.name;
-        model.CheckpointsDone = dog.checkpointsDone;
-        model.CheckpointsGoal = dog.checkpointsGoal;
-        model.Country = dog.country;
-        model.LeaderboardsOptIn = dog.leaderboards_opt_in;
-        model.CityIndex = dog.cityIndex;
+        if(addingNewDog)
+        {
+            walkingDogs.Add(dog);
 
-        db.Document(model.Id).SetAsync(model);
+            dogDropdownDelete.options.Add(new TMP_Dropdown.OptionData(dog.name + "-" + dog.id));
+            dogDropdownCheckpoint.options.Add(new TMP_Dropdown.OptionData(dog.name + "-" + dog.id));
+            dogDropdownCheckpoint.onValueChanged.AddListener(delegate
+            {
+                string option = dogDropdownCheckpoint.options[dogDropdownCheckpoint.value].text;
+                option = option.Substring(option.LastIndexOf("-") + 1);
 
+                int length = walkingDogs.Count();
+                for (int i = 0; i < length; i++)
+                {
+                    Dog dog = walkingDogs[i];
+                    if (dog.id == option)
+                    {
+                        dogCheckpointInputField.text = dog.checkpointsDone.ToString();
+                    }
+                }
+            });
+        }
+
+        if(!doNotUpdateDB)
+        {
+            DogModel model = new DogModel();
+            model.Id = dog.id;
+            model.Name = dog.name;
+            model.CheckpointsDone = dog.checkpointsDone;
+            model.CheckpointsGoal = dog.checkpointsGoal;
+            model.Country = dog.country;
+            model.LeaderboardsOptIn = dog.leaderboards_opt_in;
+            model.CityIndex = dog.cityIndex;
+
+            db.Document(model.Id).SetAsync(model);
+        }
     }
 
     public async Task load(QuerySnapshot snap = null)
@@ -357,6 +389,73 @@ public class GameManager : MonoBehaviour
         resetButtonClickIndicators[1].SetActive(false);
         todaysDate = "0";
         load();
+    }
+
+    public void DeleteDogFromOptions()
+    {
+        TMP_Dropdown.OptionData optionData = dogDropdownDelete.options[dogDropdownDelete.value];
+        string option = optionData.text;
+        option = option.Substring(option.LastIndexOf("-") + 1);
+
+        int length = walkingDogs.Count();
+        for(int i = 0; i < length; i++)
+        {
+            Dog dog = walkingDogs[i];
+            if(dog.id == option)
+            {
+                mainMenuCanvasManager.DeleteWalkingDog(dog);
+                lobbyCanvasManager.DeleteWalkingDog(dog);
+                
+                walkingDogs.Remove(dog);
+                leaderboardCanvasManager.DeleteWalkingDog();
+
+                db.Document(dog.id).DeleteAsync();
+
+                load();
+                break;
+            }
+        }
+        confirmedDialog.SetActive(true);
+        dogDropdownDelete.options.Remove(optionData);
+        dogDropdownCheckpoint.options.Remove(dogDropdownCheckpoint.options[dogDropdownDelete.value]);
+        dogDropdownDelete.RefreshShownValue();
+        dogDropdownCheckpoint.RefreshShownValue();
+    }
+    public void DeleteDogUI(Dog dog)
+    {
+        // Delete from Lobby Walking Dogs
+
+        // Delete from Leaderboard Dogs
+
+        // Delete from Main Menu Walking Dogs
+
+        // Delete from walkingDogs
+
+        mainMenuCanvasManager.DeleteWalkingDog(dog);
+        lobbyCanvasManager.DeleteWalkingDog(dog);
+
+        walkingDogs.Remove(dog);
+        leaderboardCanvasManager.DeleteWalkingDog();
+
+    }
+
+    public void SetCheckpoint()
+    {
+        string option = dogDropdownCheckpoint.options[dogDropdownCheckpoint.value].text;
+        option = option.Substring(option.LastIndexOf("-") + 1);
+
+        int length = walkingDogs.Count();
+        for (int i = 0; i < length; i++)
+        {
+            Dog dog = walkingDogs[i];
+            if (dog.id == option)
+            {
+                dog.checkpointsDone = Int32.Parse(dogCheckpointInputField.text);
+                addWalkingDog(dog, false, false);
+                break;
+            }
+        }
+        confirmedDialog.SetActive(true);
     }
 
     IEnumerator CountToTen()
