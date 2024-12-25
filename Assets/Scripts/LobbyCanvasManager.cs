@@ -195,7 +195,7 @@ public class LobbyCanvasManager : MonoBehaviour
 
     }
 
-    public void addNewDog(Dog currentDog)
+    public void addNewDog(Dog currentDog, bool toggleTrue)
     {
         GameObject dogLobbyToggle = Instantiate(dogProfilePrefab, dogProfileIcons);
         dogToggles.Add(dogLobbyToggle);
@@ -204,8 +204,12 @@ public class LobbyCanvasManager : MonoBehaviour
         dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().group = dogProfileIcons.GetComponent<ToggleGroup>();
         dogLobbyToggle.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentDog.name;
 
-        dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
-        onToggled(dogLobbyToggle, false);
+        if(toggleTrue)
+        {
+            dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
+            onToggled(dogLobbyToggle, false);
+        }
+
 
         dogLobbyToggle.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.AddListener(delegate
         {
@@ -241,7 +245,11 @@ public class LobbyCanvasManager : MonoBehaviour
             {
                 dog.GetComponent<Dog>().SetDog(currentDog);
                 if(toggleTrue)
+                {
+                    dog.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
                     onToggled(dog.gameObject, false);
+                }
+                    
                 break;
             }
 

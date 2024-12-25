@@ -122,7 +122,7 @@ public class MainMenuCanvasManager : MonoBehaviour
                         dogToggle.transform.SetSiblingIndex(0);
                         dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
 
-                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
+                        lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog, false);
                         if (currentDog.leaderboards_opt_in)
                             leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
                         
@@ -226,7 +226,7 @@ public class MainMenuCanvasManager : MonoBehaviour
             checkpointGoalText.text = "1";
         }
 
-        // PLay Audio
+        // Play Audio
 
         gameManager.PlayAudio("dogToggleMenu");
     }
@@ -311,7 +311,7 @@ public class MainMenuCanvasManager : MonoBehaviour
             dogWalkingToggle.GetComponentInChildren<TextMeshProUGUI>().text = currentDog.name;
 
 
-            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog);
+            lobbyCanvas.transform.parent.GetComponent<LobbyCanvasManager>().addNewDog(currentDog, true);
             if (currentDog.leaderboards_opt_in)
                 leaderboardsCanvas.GetComponent<LeaderboardCanvasManager>().addNewDog(currentDog);
 
@@ -339,9 +339,6 @@ public class MainMenuCanvasManager : MonoBehaviour
         passportVideoPlayer.GetComponent<VideoPlayer>().Play();
         startButton.gameObject.SetActive(true);
 
-        //passportCanvas.SetActive(true);
-        
-
         selectDestinationCanvas.SetActive(false);
         switch (currentDog.country)
         {
@@ -367,8 +364,10 @@ public class MainMenuCanvasManager : MonoBehaviour
         {
             if (currentDog == null)
                 return;
-            gameManager.ActivateNewUserDialogue();
-            //gameManager.ActivateFactDialogue(currentDog);
+            if(currentDog.isNew)
+                gameManager.ActivateNewUserDialogue();
+            else
+                gameManager.ActivateFactDialogue(currentDog);
             gameManager.PlayAudio(currentDog.country);
             resetUI();
             
